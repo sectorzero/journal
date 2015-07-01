@@ -1,0 +1,323 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<style>
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+blockquote {
+    margin: 0;
+    padding: 0;
+}
+body {
+    font-family: "Helvetica Neue", Helvetica, "Hiragino Sans GB", Arial, sans-serif;
+    font-size: 13px;
+    line-height: 18px;
+    color: #737373;
+    background-color: white;
+    margin: 10px 13px 10px 13px;
+}
+table {
+	margin: 10px 0 15px 0;
+	border-collapse: collapse;
+}
+td,th {	
+	border: 1px solid #ddd;
+	padding: 3px 10px;
+}
+th {
+	padding: 5px 10px;	
+}
+
+a {
+    color: #0069d6;
+}
+a:hover {
+    color: #0050a3;
+    text-decoration: none;
+}
+a img {
+    border: none;
+}
+p {
+    margin-bottom: 9px;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #404040;
+    line-height: 36px;
+}
+h1 {
+    margin-bottom: 18px;
+    font-size: 30px;
+}
+h2 {
+    font-size: 24px;
+}
+h3 {
+    font-size: 18px;
+}
+h4 {
+    font-size: 16px;
+}
+h5 {
+    font-size: 14px;
+}
+h6 {
+    font-size: 13px;
+}
+hr {
+    margin: 0 0 19px;
+    border: 0;
+    border-bottom: 1px solid #ccc;
+}
+blockquote {
+    padding: 13px 13px 21px 15px;
+    margin-bottom: 18px;
+    font-family:georgia,serif;
+    font-style: italic;
+}
+blockquote:before {
+    content:"\201C";
+    font-size:40px;
+    margin-left:-10px;
+    font-family:georgia,serif;
+    color:#eee;
+}
+blockquote p {
+    font-size: 14px;
+    font-weight: 300;
+    line-height: 18px;
+    margin-bottom: 0;
+    font-style: italic;
+}
+code, pre {
+    font-family: Monaco, Andale Mono, Courier New, monospace;
+}
+code {
+    background-color: #fee9cc;
+    color: rgba(0, 0, 0, 0.75);
+    padding: 1px 3px;
+    font-size: 12px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+pre {
+    display: block;
+    padding: 14px;
+    margin: 0 0 18px;
+    line-height: 16px;
+    font-size: 11px;
+    border: 1px solid #d9d9d9;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+pre code {
+    background-color: #fff;
+    color:#737373;
+    font-size: 11px;
+    padding: 0;
+}
+sup {
+    font-size: 0.83em;
+    vertical-align: super;
+    line-height: 0;
+}
+* {
+	-webkit-print-color-adjust: exact;
+}
+@media screen and (min-width: 914px) {
+    body {
+        width: 854px;
+        margin:10px auto;
+    }
+}
+@media print {
+	body,code,pre code,h1,h2,h3,h4,h5,h6 {
+		color: black;
+	}
+	table, pre {
+		page-break-inside: avoid;
+	}
+}
+</style>
+<title>Connecting to a remote JVM Process via JMX interface using ssh tunneling</title>
+
+</head>
+<body>
+<h1>Connecting to a remote JVM Process via JMX interface using ssh tunneling</h1>
+
+<h2>Scenario :</h2>
+
+<p>Suppose you have JVM processes or a server running on a remote host and that network is private or restricted to only ssh access, and say we had to connect to the JVM to debug or to inspect anything. We would use something like JVisualVM and try to connect to the JVM via the JMX interface. With the above scenario, as it comes out-of-the-box, it is not really straight-forward to achieve a working setup and this a hands-on tutorial walks through the processing of setting this up.</p>
+
+<h2>Constraints and Challenges</h2>
+
+<ul>
+<li>The JVM process is running on a remote host in remote network</li>
+<li>Only access to the network is via ssh via bastion/jumper host with the network
+
+<ul>
+<li><code>client is--&gt; |F| &lt;--&gt; bastion-host &lt;--&gt; server</code></li>
+</ul>
+</li>
+<li>Only way we can reach the intented destination hosts is via ssh</li>
+<li>We cannot ssh directly to the destination-host and have to hop over the bastion/jumper host</li>
+<li>We need to connect to the java process via <code>jvisualvm</code> for debugging, monitoring and other operations. Basically the use-case could be to do anything via JMX interface to a java process</li>
+<li>We cannot run the <code>jvisualvm</code> on the remote/destination host as this is network intensive and may not privileges. The bandwidth required for this locality is not practical for operations</li>
+<li>The default/standard way of using JMX via RMI does not work as RMI protocol cannot be tunneled. It is an arcance non-OSI 'layer' compliant protocol</li>
+<li>We need the data over the network to be secure ( security provided by ssh )</li>
+</ul>
+
+
+<h2>Solution</h2>
+
+<ul>
+<li>The network connectivity problems are solved using powerful networking primitives which exploit the OSI layering abstractions. These features are all provided by SSH. We will use two main features of SSH to achive this
+
+<ul>
+<li>SSH Local Port Forwarding : SSH port-forwarding primitives provide us means to communicate with abitrary ports on arbitrary networks over an uniform SSH connection</li>
+<li>SSH transparent proxying using ProxyCommand and netcat : Provides us means to transparently proxy the ssh-tunnel across mutliple host hops.</li>
+</ul>
+</li>
+<li>Standard JMX works over RMI protocol which is not a transparent layered protocol and hence cannot be tunneled across networks. It requires special knowledge of hosts and has unnecessay complex control protocol which is arcane. Fortunately there is another protocol upon which JMX can be interface called JMXMP. Unfortunately, it does not come standard out-of-the-box and requires some non-trivial setup. But once you have set this up on the server once, it is does not require any more special effort</li>
+</ul>
+
+
+<h2>Environment For Walkthrough</h2>
+
+<pre><code>myhost.naboo.org |F| &lt;- WAN -&gt; |F| bastion.deathstar.org &lt;--&gt; bastion.deathstar.org
+</code></pre>
+
+<p>.</p>
+
+<pre><code>$myhost.naboo&gt;netcat -vz bastion.deathstar.org 22
+bastion.deathstar.org [178.85.206.132] 22 (ssh) open
+
+$myhost.naboo&gt;netcat -vz node-01.deathstat.org 22
+Error: Couldn't resolve host "node-01.deathstat.org" ( or timeout )
+
+$myhost.naboo&gt;netcat -vz node-01.deathstat.org 59991
+Error: Couldn't resolve host "node-01.deathstat.org" ( or timeout )
+
+$bastion.deathstat&gt;netcat -vz node-01.deathstat.org 22
+node-01.deathstat.org [10.0.0.132] 22 (ssh) open
+
+$node-01.deathstar&gt; lsof -i TCP -n -P
+sshd      2179      root   3u  IPv4    13812      0t0  TCP *:22 (LISTEN)
+java     24601       foo  148u  IPv6 22442856      0t0  TCP *:8888 (LISTEN)
+java     24942       foo  153u  IPv6 22449275      0t0  TCP 127.0.0.1:59991 (LISTEN)  
+</code></pre>
+
+<h2>Hands-On</h2>
+
+<h3>JMXMP Setup</h3>
+
+<h5>JVM Server / Process Side</h5>
+
+<ul>
+<li>Download JMX Reference Impl jar from Oracle/Java or either locations described here (see refs) and include it in the classpath for your server/process. This jar is available via some Maven repos too.</li>
+<li>During the start of your Java process/server, start a JMX server which uses JMXMP protocol. I have included an example of how I did it with DropWizarb based server during bootstrap</li>
+</ul>
+
+
+<pre><code>    /**
+     * Usage JVM Arg Example :
+     * -Djavax.management.remote.JMXServiceURL=service:jmx:jmxmp://127.0.0.1:59991
+     */
+    private static class JMXMPJmxConnectorServerBundle extends RuntimeBundle {
+        static final String JMXServiceURLPropKey = "javax.management.remote.JMXServiceURL";
+        @Override
+        public void run(Environment environment) {
+            try {
+                String jmxServiceUrlPropVal = System.getProperty(JMXServiceURLPropKey);
+                JMXServiceURL jmxUrl = new JMXServiceURL(jmxServiceUrlPropVal);
+                Map&lt;String, String&gt; jmxEnvironment = new ImmutableMap.Builder&lt;String, String&gt;()
+                    .put("jmx.remote.server.address.wildcard", "false")
+                    .build();
+                MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
+                JMXConnectorServer jmxRemoteServer = JMXConnectorServerFactory.newJMXConnectorServer(
+                    jmxUrl, jmxEnvironment, mbs);
+                jmxRemoteServer.start();
+            } catch(Exception e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+</code></pre>
+
+<h5>Client Side</h5>
+
+<ul>
+<li>Download JMX Reference Impl jar from Oracle/Java or either locations described here and include it in the classpath for your server/process. This jar is available via some Maven repos too.</li>
+<li>Invoke <code>jvisualvm</code> as follows</li>
+</ul>
+
+
+<pre><code>/usr/bin/jvisualvm -cp:a &lt;full path to jmxmp jar&gt; --openjmx service:jmx:jmxmp://127.0.0.1:59991
+</code></pre>
+
+<h3>SSH Transparent Proxying Setup</h3>
+
+<ul>
+<li>Configure ssh client to do transparent proxying using netcat</li>
+<li>Make sure you setup ssh-keys and publish them on the remote network for passwordless logins if you need convenience.</li>
+<li>Sections in your .ssh/config look like this :</li>
+</ul>
+
+
+<pre><code>Host bastion-deathstar
+    Hostname bastion.deathstar.org
+    User hansolo
+    PreferredAuthentications publickey
+    IdentityFile /Users/hansolo/ssh-keys/id_rsa_deathstar
+    IdentitiesOnly yes
+
+Host node-01-deathstar
+    Hostname node-01.deathstar.org
+    User hansolo
+    ProxyCommand ssh bastion-deathstar nc %h %p
+    PreferredAuthentications publickey
+    IdentityFile /Users/hansolo/ssh-keys/id_rsa_deathstar
+    IdentitiesOnly yes
+</code></pre>
+
+<h3>SSH Tunelling Setup</h3>
+
+<pre><code>ssh -L 59991:127.0.0.1:59991 bastion.deathstar.org -N
+</code></pre>
+
+<h3>Putting it all together ... Voila moment</h3>
+
+<ul>
+<li>Download the jar for JMXMP reference implementation for Oracle or other (see refs)</li>
+<li>Setup the java server/processs with JMX server which uses JMXMP protocol</li>
+<li>Setup SSH transparent proxying to hop via bastion/jumper hosts</li>
+<li>Setup a SSH tunnel to the destination host ( using the transparent SSH proxying )</li>
+<li>Invoke <code>jvisualvm</code> with JMXMP enabled protocol to connect to the destination host and JMX port via SSH local port forwarding ( SSH tunneling )</li>
+</ul>
+
+
+<h2>References</h2>
+
+<ul>
+<li><a href="http://blog.markfeeney.com/2010/10/jmx-through-ssh-tunnel.html">http://blog.markfeeney.com/2010/10/jmx-through-ssh-tunnel.html</a></li>
+<li><a href="http://stackoverflow.com/questions/11412560/where-to-download-jmxmp">http://stackoverflow.com/questions/11412560/where-to-download-jmxmp</a></li>
+<li><a href="https://github.com/frankgrimes97/jmxmp-java-agent/blob/master/pom.xml">https://github.com/frankgrimes97/jmxmp-java-agent/blob/master/pom.xml</a></li>
+<li><a href="http://backdrift.org/transparent-proxy-with-ssh">http://backdrift.org/transparent-proxy-with-ssh</a></li>
+<li><a href="http://www.amazon.com/gp/product/0596008953">http://www.amazon.com/gp/product/0596008953</a></li>
+</ul>
+
+</body>
+</html>
