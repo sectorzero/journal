@@ -322,12 +322,12 @@ Host node-01-deathstar
 <h4>SSH Tunelling Setup</h4>
 
 <ul>
-<li>Setup local port-forwarding of the JMX port as follows. Note the host in this is the bastion host, but the proxying setup you already did will tunnel the ssh connection all the way to the destination host
-<code>
-ssh -L 59991:127.0.0.1:59991 bastion.deathstar.org -N
-</code></li>
+<li>Setup local port-forwarding of the JMX port as follows. Note the host in this is the bastion host, but the proxying setup you already did will tunnel the ssh connection all the way to the destination host</li>
 </ul>
 
+
+<pre><code>    ssh -L 59991:127.0.0.1:59991 bastion.deathstar.org -N
+</code></pre>
 
 <h2>References</h2>
 
