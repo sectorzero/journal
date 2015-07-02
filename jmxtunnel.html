@@ -160,22 +160,21 @@ sup {
 
 <h2>Scenario :</h2>
 
-<p>Suppose you have JVM processes or a server running on a remote host and that network is private or restricted to only ssh access, and say we had to connect to the JVM to debug or to inspect anything. We would use something like JVisualVM and try to connect to the JVM via the JMX interface. With the above scenario, as it comes out-of-the-box, it is not really straight-forward to achieve a working setup and this a hands-on tutorial walks through the processing of setting this up.</p>
+<p>Suppose you have JVM processes or a server running on a remote host and that network is private or restricted to only ssh access, and say we had to connect to the JVM to debug or to inspect anything. What we would use is something like JVisualVM and try to connect to the JVM via the JMX interface. This should be straight-forward, but given a multi-network topology, this soon stops to work as it comes out-of-the-box. This tutorial guides you through the steps of setting up LMX for such a scenario</p>
 
 <h2>Constraints and Challenges</h2>
 
 <ul>
 <li>The JVM process is running on a remote host in remote network</li>
-<li>Only access to the network is via ssh via bastion/jumper host with the network
+<li>Only way we can reach the intented destination hosts is via ssh</li>
+<li><p>Only access to the network is via ssh via bastion/jumper host with the network, i.e we cannot ssh directly to the destination host and have to reach by hopping via intermediate hosts</p>
 
 <ul>
 <li><code>client is--&gt; |F| &lt;--&gt; bastion-host &lt;--&gt; server</code></li>
 </ul>
 </li>
-<li>Only way we can reach the intented destination hosts is via ssh</li>
-<li>We cannot ssh directly to the destination-host and have to hop over the bastion/jumper host</li>
-<li>We need to connect to the java process via <code>jvisualvm</code> for debugging, monitoring and other operations. Basically the use-case could be to do anything via JMX interface to a java process</li>
-<li>We cannot run the <code>jvisualvm</code> on the remote/destination host as this is network intensive and may not privileges. The bandwidth required for this locality is not practical for operations</li>
+<li><p>We need to connect to the java process via <code>jvisualvm</code> for debugging, monitoring and other operations. Basically the use-case could be to do anything via JMX interface to a java process, so this overall setup works for other mechanisms which use the JMX interface</p></li>
+<li>We cannot run the <code>jvisualvm</code> on the remote/destination host as this is network intensive and may not have privileges. The bandwidth required for this strategy is not practical for operations</li>
 <li>The default/standard way of using JMX via RMI does not work as RMI protocol cannot be tunneled. It is an arcance non-OSI 'layer' compliant protocol</li>
 <li>We need the data over the network to be secure ( security provided by ssh )</li>
 </ul>
@@ -222,13 +221,40 @@ java     24942       foo  153u  IPv6 22449275      0t0  TCP 127.0.0.1:59991 (LIS
 
 <h2>Hands-On</h2>
 
-<h3>JMXMP Setup</h3>
+<h3>Steps in the process</h3>
+
+<ol>
+<li>Download the jar for JMXMP implementation as this is not available in the standard JDK (see refs)</li>
+<li>Setup the JVM server/processs with a JMX server which uses JMXMP protocol</li>
+<li>Setup a SSH tunnel (local port-fowarding)to the destination host. You will need to setup to transparently proxy SSH via the intermediate hop host</li>
+<li>Invoke <code>jvisualvm</code> with JMXMP enabled protocol to connect to the destination host and JMX port via the SSH tunnel</li>
+</ol>
+
+
+<h3>Details</h3>
+
+<h4>JMXMP Setup</h4>
+
+<h5>JMXMP library</h5>
+
+<ul>
+<li>An implementation of the JMXMP protocol is not bundled default with the standard JDK. So you will have to download it seperately as a jar from Oracle or one of the other sources (See refs). This is available in a few Maven repos too to include it easily in your JVM application or server.</li>
+<li>Eg. Maven Repo</li>
+</ul>
+
+
+<pre><code>    &lt;dependency&gt;
+        &lt;groupId&gt;javax.management&lt;/groupId&gt;
+        &lt;artifactId&gt;jmxremote_optional&lt;/artifactId&gt;
+        &lt;version&gt;1.0.1_04&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre>
 
 <h5>JVM Server / Process Side</h5>
 
 <ul>
-<li>Download JMX Reference Impl jar from Oracle/Java or either locations described here (see refs) and include it in the classpath for your server/process. This jar is available via some Maven repos too.</li>
-<li>During the start of your Java process/server, start a JMX server which uses JMXMP protocol. I have included an example of how I did it with DropWizarb based server during bootstrap</li>
+<li>Include the JMXMP jar in the classpath of your JVM application</li>
+<li>During the start of your JVM process/server, start a JMX server which uses JMXMP protocol. I have included an example of how I did it with DropWizard based Java server during bootstrap</li>
 </ul>
 
 
@@ -260,20 +286,20 @@ java     24942       foo  153u  IPv6 22449275      0t0  TCP 127.0.0.1:59991 (LIS
 <h5>Client Side</h5>
 
 <ul>
-<li>Download JMX Reference Impl jar from Oracle/Java or either locations described here and include it in the classpath for your server/process. This jar is available via some Maven repos too.</li>
-<li>Invoke <code>jvisualvm</code> as follows</li>
+<li>Have the JMXMP jar handy as you will need to include it in the classpath of the client ( assuming a java client )</li>
+<li>Invoke <code>jvisualvm</code> as follows ( pay attention to the JMX url )</li>
 </ul>
 
 
 <pre><code>/usr/bin/jvisualvm -cp:a &lt;full path to jmxmp jar&gt; --openjmx service:jmx:jmxmp://127.0.0.1:59991
 </code></pre>
 
-<h3>SSH Transparent Proxying Setup</h3>
+<h4>SSH Transparent Proxying Setup</h4>
 
 <ul>
 <li>Configure ssh client to do transparent proxying using netcat</li>
 <li>Make sure you setup ssh-keys and publish them on the remote network for passwordless logins if you need convenience.</li>
-<li>Sections in your .ssh/config look like this :</li>
+<li>Sections in your <code>.ssh/config</code> look like this :</li>
 </ul>
 
 
@@ -293,19 +319,13 @@ Host node-01-deathstar
     IdentitiesOnly yes
 </code></pre>
 
-<h3>SSH Tunelling Setup</h3>
-
-<pre><code>ssh -L 59991:127.0.0.1:59991 bastion.deathstar.org -N
-</code></pre>
-
-<h3>Putting it all together ... Voila moment</h3>
+<h4>SSH Tunelling Setup</h4>
 
 <ul>
-<li>Download the jar for JMXMP reference implementation for Oracle or other (see refs)</li>
-<li>Setup the java server/processs with JMX server which uses JMXMP protocol</li>
-<li>Setup SSH transparent proxying to hop via bastion/jumper hosts</li>
-<li>Setup a SSH tunnel to the destination host ( using the transparent SSH proxying )</li>
-<li>Invoke <code>jvisualvm</code> with JMXMP enabled protocol to connect to the destination host and JMX port via SSH local port forwarding ( SSH tunneling )</li>
+<li>Setup local port-forwarding of the JMX port as follows. Note the host in this is the bastion host, but the proxying setup you already did will tunnel the ssh connection all the way to the destination host
+<code>
+ssh -L 59991:127.0.0.1:59991 bastion.deathstar.org -N
+</code></li>
 </ul>
 
 
