@@ -1,0 +1,287 @@
+System Setup Initial
+--------------------
+1. Boot Up
+2. Boot Up with Apple Diagnostics Check ( Restart & hold D )
+2. Create Admin Account
+- Keep network off
+- Disable location tracking
+- Spotlight, remove most of the search spaces. Esp 'Spotlight Preferences'
+- Keep Sharing Off for now
+- Enable Firewall Full
+- Login : always require password, as soon as locked, advanced : auto log off in 30 mins, always ask for admin password for systemwide changes
+- Keychain Access : need to research 
+3. Drop other accounts to Standard
+4. Create fully restricted Guest User
+5. Reboot
+6. Install all software updates making it up-to date
+7. Reboot
+8. Login as admin and Enable FileVault
+- Store the creds in a safe place
+9. Reboot
+10. Setup networks 
+11. Reboot and check everything works correctly
+
+Security
+--------
+https://github.com/drduh/macOS-Security-and-Privacy-Guide
+
+Core Tooling Setup ( all other installations are based on this framework - git, homebrew and cask )
+------------------------
+1. XCode CommandLine Tools ( includes Git )
+- Install XCode from AppStore or developer.apple.com
+- xcode-select --install for the command line tools
+- git --version
+
+2. homebrew
+- create a new non-admin user 'homebrew'
+- login as admin and install brew ( su admin )
+- brew doctor
+- sudo chown -R homebrew /usr/local
+- logout as admin
+- su homebrew
+- brew doctor
+- logout as homebrew
+- visudo add ( for example user secbrowse ) :
+  # Allow secbrowse to execute brew as homebrew user
+  secbrowse ALL=(homebrew) NOPASSWD: /usr/local/bin/brew
+- login as secbrowse
+- sudo -u homebrew homebrew doctor
+- refs : 
+  http://blog.strug.de/2012/06/my-homebrew-multi-user-setup/
+  http://matsuzine.blogspot.com/2013/02/getting-homebrew-set-up-for-non-admin.html
+  http://osxdaily.com/2014/02/06/add-user-sudoers-file-mac/
+Note for Cask.
+- Unfortunately Cask is implemented badly so there are 2 problems :
+a. When sudo'd as homebrew, it still tries to create the cache path in the user calling the sudo, which is a major bug.
+b. By default it creates apps in /Applications, so cannot be used as non-admin. But we can move to ~/Applications. Not sure if this has the problem with sudo as mentioned earlier.
+So for Cask, we need to do the following :
+sudo homebrew
+brew cask install --require-sha --appdir=~/Applications <appname>
+
+After-Note ( final )
+- All the above setup is not elegant and unnecssary. Just follow this : 
+  http://blog.strug.de/2012/06/my-homebrew-multi-user-setup/
+& cask installs will be simply with the user account :
+  brew cask install --require-sha --appdir=~/Applications <appname>
+
+C. Basic Shell & GitHub Setup
+------------------------
+1. ITerm2
+brew cask install iterm2
+2. Zsh
+brew install zsh zsh-completions
+change default shell : http://rick.cogley.info/post/use-homebrew-zsh-instead-of-the-osx-default/
+3. History
+4. Rcs & Aliases
+5. SSH cert setup
+6. Github
+
+D. Chrome
+-------------------------
+- brew cask install --appdir=~/Applications google-chrome
+- Setup to control user-profile folder
+https://www.chromium.org/user-experience/user-data-directory
+mkdir -p ~/Data/Chrome/UserData/{primary,primary-cache}
+- command alias to launch from terminal
+~/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --user-data-dir=/Users/sectorzero/Data/Chrome/UserData/primary --disk-cache-dir=/Users/sectorzero/Data/Chrome/UserData/primary-cache --disk-cache-size=104857600 --purge-memory-button --disable-metrics-reporting > /dev/null 2>&1 &
+- Plugins for privacy and ad-blocking
+* adblock plus, referer-control, vanilla cookie manager, ghostery, privacy badger
+* https://myaccount.google.com/activitycontrols
+* doubleclick opt-out cookie
+* [TO RESEARCH] https://www.privoxy.org/user-manual/index.html
+- Account Synching ( optional )
+
+E. Basic Language Platforms
+---------------------------
+E1. C/C++
+c++ --version
+Apple LLVM version 8.0.0 (clang-800.0.42.1)
+Target: x86_64-apple-darwin16.1.0
+Thread model: posix
+InstalledDir: /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin
+
+E2. Rust
+- Rust is best installed via rustup ( use rustup.rs not the old rustup.sh )
+- I first installed via rustup.sh, everything was installed but no rustup, then realized I was wrong
+- https://github.com/rust-lang-nursery/rustup.rs
+- See installation. Get rustup-init.sh and run
+- Path will be as explained in README, you might need to add it yourself
+- rustup --version, rustc and cargo should work
+$>rustup show
+Default host: x86_64-apple-darwin
+stable-x86_64-apple-darwin (default)
+rustc 1.13.0 (2c6933acc 2016-11-07)
+- Rust Source Code
+    https://github.com/rust-lang-nursery/rustup.rs/issues/37
+    rustup component add rust-src
+    path will be within : "$(rustc --print sysroot)/lib/rustlib/src/rust/src"
+- Navigation / Indexing
+racer ( https://github.com/phildawes/racer ) using cargo
+rustfmt ( https://github.com/rust-lang-nursery/rustfmt ) using cargo
+rustsym using cargo
+
+Debugging Setup on Mac Os X ( this is a bitch )
+1. !!!!!!!!!! If you are not admin, you need to be a part of the _developer group !!!!!!!!!!!!
+- Took me 2 days to find this : http://stackoverflow.com/questions/1837889/authorize-a-non-admin-developer-in-xcode-mac-os, http://www.cocoabuilder.com/archive/xcode/310148-debugging-developer-tools-access-needs-to-take-control-blah-blah.html
+- Launch XCode write a simple C Program and test build, run and debug. Everything should work. https://developer.apple.com/library/content/documentation/DeveloperTools/Conceptual/debugging_with_xcode/chapters/debugging_tools.html
+- You can use lldb from now on.
+- For gdb, the brew gdb does not work as it is not signed and Info.plist is not setup properly. Still need to get it to work. : http://forum.lazarus.freepascal.org/index.php?topic=34165.15
+
+- VSCode ( pure shit, debugger does not work )
+---------------------------
+brew cask install --require-sha --appdir=~/Applications visual-studio-code
+Extensions : 
+    https://github.com/VSCodeVim/Vim
+    https://github.com/saviorisdead/RustyCode
+
+Vim :
+---------
+- Default installed on OS X
+
+VIM - Vi IMproved 7.4 (2013 Aug 10, compiled Sep 19 2016 15:09:36)
+Included patches: 1-898
+Compiled by root@apple.com
+Normal version without GUI.  Features included (+) or not (-):
++acl             -farsi           -mouse_netterm   +syntax
+-arabic          +file_in_path    -mouse_sgr       +tag_binary
++autocmd         +find_in_path    -mouse_sysmouse  +tag_old_static
+-balloon_eval    +float           -mouse_urxvt     -tag_any_white
+-browse          +folding         +mouse_xterm     -tcl
++builtin_terms   -footer          +multi_byte      +terminfo
++byte_offset     +fork()          +multi_lang      +termresponse
++cindent         -gettext         -mzscheme        +textobjects
+-clientserver    -hangul_input    +netbeans_intg   +title
+-clipboard       +iconv           +path_extra      -toolbar
++cmdline_compl   +insert_expand   -perl            +user_commands
++cmdline_hist    +jumplist        +persistent_undo +vertsplit
++cmdline_info    -keymap          +postscript      +virtualedit
++comments        -langmap         +printer         +visual
+-conceal         +libcall         -profile         +visualextra
++cryptv          +linebreak       +python/dyn      +viminfo
++cscope          +lispindent      -python3         +vreplace
++cursorbind      +listcmds        +quickfix        +wildignore
++cursorshape     +localmap        +reltime         +wildmenu
++dialog_con      -lua             -rightleft       +windows
++diff            +menu            +ruby/dyn        +writebackup
++digraphs        +mksession       +scrollbind      -X11
+-dnd             +modify_fname    +signs           -xfontset
+-ebcdic          +mouse           +smartindent     -xim
+-emacs_tags      -mouseshape      -sniff           -xsmp
++eval            -mouse_dec       +startuptime     -xterm_clipboard
++ex_extra        -mouse_gpm       +statusline      -xterm_save
++extra_search    -mouse_jsbterm   -sun_workshop    -xpm
+   system vimrc file: "$VIM/vimrc"
+     user vimrc file: "$HOME/.vimrc"
+ 2nd user vimrc file: "~/.vim/vimrc"
+      user exrc file: "$HOME/.exrc"
+  fall-back for $VIM: "/usr/share/vim"
+Compilation: gcc -c -I. -Iproto -DHAVE_CONFIG_H     -g -O2 -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=1       
+Linking: gcc   -L/usr/local/lib -o vim        -lm -lncurses  -liconv           
+
+.vimrc
+" General
+set number
+set tabstop     =4
+set softtabstop =4
+set shiftwidth  =4
+set expandtab
+
+" Vim Plug
+call plug#begin('~/.vim/plugged')
+
+"Syntastic
+Plug 'vim-syntastic/syntastic'
+
+" Javascript
+Plug 'pangloss/vim-javascript'
+
+" Rust
+Plug 'rust-lang/rust.vim'
+Plug 'racer-rust/vim-racer'
+set hidden
+let g:racer_cmd = "/Users/sectorzero/.cargo/bin/racer"
+let $RUST_SRC_PATH="/Users/sectorzero/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src"
+
+call plug#end()
+
+Spacemacs
+--------
+1. git clone spacemacs to ~/Tools
+2. ln -s ~/Tools/spacemacs ~/.emacs.d
+3. Install Emacs : 
+brew tap d12frosted/emacs-plus
+brew install emacs-plus --with-ctags --with-dbus --without-cocoa --without-librsvg --without-imagemagick --without-libxml2
+GNU Emacs 25.1.2
+Copyright (C) 2016 Free Software Foundation, Inc.
+GNU Emacs comes with ABSOLUTELY NO WARRANTY.
+You may redistribute copies of GNU Emacs
+under the terms of the GNU General Public License.
+For more information about these matters, see the file named COPYING.
+4. .spacemacs : 
+   dotspacemacs-configuration-layers
+   '(
+     ;; ----------------------------------------------------------------
+     ;; Example of useful layers you may want to use right away.
+     ;; Uncomment some layer names and press <SPC f e R> (Vim style) or
+     ;; <M-m f e R> (Emacs style) to install them.
+     ;; ----------------------------------------------------------------
+     ivy
+     auto-completion
+     better-defaults
+     emacs-lisp
+     ;; git
+     ;; markdown
+     ;; org
+     ;; (shell :variables
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom)
+     ;; spell-checking
+     syntax-checking
+     ;; version-control
+     osx
+     rust
+     )
+Add the following to the user-config section :
+  ;; Rust config
+  (setq racer-cmd "/Users/sectorzero/.cargo/bin/racer")
+  (setq racer-rust-src-path "/Users/sectorzero/.multirust/toolchains/stable-x86_64-apple-darwin/lib/rustlib/src/rust/src")
+  (add-hook 'rust-mode-hook
+    (lambda ()
+        (setq-default evil-shift-width 4)
+        (setq tab-width 4)
+        (setq indent-tabs-mode nil)
+        ))
+Test with some simple rust project. It should work
+
+E3. Python
+$>python --version
+Python 2.7.10
+
+E4. Java & Java Essentials
+
+Editors :
+- Vim
+- Spacemacs
+- IntelliJ
+
+
+    
+Essential Utilities / Applications
+------------------------
+- Office for Mac
+
+My Settings
+-----------
+* Considerations
+- One store to rule them all
+- Should encrypt or not
+* Things to save
+* Chrome
+- Bookmarks
+- Settings
+- Extensions & Settings ??
+* Shell
+- rcs
+- history
+* Windows Stuff
+- Bunch of Settings
