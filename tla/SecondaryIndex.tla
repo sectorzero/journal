@@ -1,40 +1,26 @@
 --------------------------------- MODULE SecondaryIndex ---------------------------------
 (***************************************************************************)
-(* This module specifies the Paxos Commit algorithm.  We specify only      *)
-(* safety properties, not liveness properties.  We simplify the            *)
-(* specification in the following ways.                                    *)
+(* This module specifies a protocol for updating a secondary-index with    *)
+(* eventual consistency semantics with the the index guranteed to be       *)
+(* updated with the highest-known-snapshot of the version of the key       *)
+(* in the primary table                                                    *)
 (*                                                                         *)
-(*  - As in the specification of module TwoPhase, and for the same         *)
-(*    reasons, we let the variable msgs be the set of all messages that    *)
-(*    have ever been sent.  If a message is sent to a set of recipients,   *)
-(*    only one copy of the message appears in msgs.                        *)
+(* This specification defines the protocol for the update of values of     *)
+(* a single key K                                                          *)
 (*                                                                         *)
-(*  - We do not explicitly model the receipt of messages.  If an           *)
-(*    operation can be performed when a process has received a certain set *)
-(*    of messages, then the operation is represented by an action that is  *)
-(*    enabled when those messages are in the set msgs of sent messages.    *)
-(*    (We are specifying only safety properties, which assert what events  *)
-(*    can occur, and the operation can occur if the messages that enable   *)
-(*    it have been sent.)                                                  *)
+(* We specify only safety properties, not liveness properties.             *) 
+(* We simplify the specification in the following ways.                    *)
 (*                                                                         *)
-(*  -  We do not model leader selection.  We define actions that the       *)
-(*    current leader may perform, but do not specify who performs them.    *)
-(*                                                                         *)
-(* As in the specification of Two-Phase commit in module TwoPhase, we have *)
-(* RMs spontaneously issue Prepared messages and we ignore Prepare         *)
-(* messages.                                                               *)
 (***************************************************************************)
 EXTENDS Integers, Sequences
 
-CONSTANT REQUESTS, INDEXERS
-
 Remove(i, seq) == 
-  [j \in 1..(Len(seq)-1) |-> IF j < i THEN seq[j] ELSE seq[j+1]]
-  
-\* TODO
-Last(seq) ==
-    Head(seq)
+[j \in 1..(Len(seq)-1) |-> IF j < i THEN seq[j] ELSE seq[j+1]]
 
+\* TODO
+Last(seq) == Head(seq)
+-----------------------------------------------------------------------------
+CONSTANT REQUESTS, INDEXERS
 -----------------------------------------------------------------------------
 VARIABLES Pri,          \* Primary Table Log Of Updates For A Single Key,
           WrkQ,         \* Updates Hint Queue,
@@ -44,73 +30,121 @@ VARIABLES Pri,          \* Primary Table Log Of Updates For A Single Key,
 
 vars == <<Pri, WrkQ, Idx, RState, IState>>
 
-SIdxInit == /\ Pri = << [etag |-> 0, val |-> "initial"] >>
-        /\ WrkQ = << >>
-        /\ Idx = { [etag |-> 0, val |-> "initial"] } 
-        /\ RState = [r \in REQUESTS |-> [ state |-> "queued", retag |-> 0, rval |-> r] ] 
-        /\ IState = [i \in INDEXERS |-> [ state |-> "waiting", etagold |-> 0, rvalold |-> ""] ]
+EmptyRecord == [etag |-> 0, val |-> ""]
+
+InitialRecord == [etag |-> 1, val |-> "initial"]
+
+IndexerResetRecord == [ state |-> "waiting", 
+                        valold |-> EmptyRecord,
+                        valnew |-> EmptyRecord ]
+                        
+SIdxInit == /\ Pri = << InitialRecord >>
+            /\ WrkQ = << >>
+            /\ Idx = { InitialRecord } 
+            /\ RState = [r \in REQUESTS |-> [state |-> "unprocessed", rval |-> EmptyRecord]] 
+            /\ IState = [i \in INDEXERS |-> IndexerResetRecord ]
 -----------------------------------------------------------------------------
 (***************************************************************************)
-(*                                THE ACTIONS                              *)
+(*                          UpdateRequest ACTIONS                          *)
 (***************************************************************************)
-Process_2_3(r) ==
-        (*************************************************************************)
-        (* Resource manager r prepares by sending a phase 2a message for ballot  *)
-        (* number 0 with value "prepared".                                       *)
-        (*************************************************************************)
-        /\ RState[r].state = "queued"
-        /\ RState' = [RState EXCEPT ![r] = [state |-> "read", retag |-> Last(Pri).etag, rval |-> Head(Pri).val]]
-        /\ UNCHANGED <<Pri, WrkQ, Idx, IState>>
+UpdateReq_ReadCurrValueFromPrimaryTable(r) ==
+  (*************************************************************************)
+  (* Phase 1 of the Update Request : Reads the current value of K from the *)
+  (* primary table. ( 2,3 in Fig )                                         *)
+  (*************************************************************************)
+  /\ RState[r].state = "unprocessed"
+  /\ LET currval == Last(Pri)
+     IN /\ RState' = [RState EXCEPT ![r] = 
+            [state |-> "readvalue", rval |-> currval]]
+  /\ UNCHANGED <<Pri, WrkQ, Idx, IState>>
 
-Process_4_5(r) == 
-        /\ RState[r].state = "read"
-        /\ WrkQ' = Append(WrkQ, [etagold |-> RState[r].retag, valold |-> RState[r].rval])
-        /\ RState' = [RState EXCEPT ![r] = [state |-> "hinted"]]
-        /\ UNCHANGED <<Pri, Idx, IState>>
+UpdateReq_EnqueueOptimisticUpdateHint(r) == 
+  (*************************************************************************)
+  (* Phase 1 of the Update Request : Enqueues the read value as an optimis *)
+  (* tic hint or marker for the updater to work on. ( 4,5 in Fig )         *)
+  (*************************************************************************)
+  /\ RState[r].state = "readvalue"
+  /\ WrkQ' = Append(WrkQ, RState[r].rval)
+  /\ RState' = [RState EXCEPT ![r] = [state |-> "queued"]]
+  /\ UNCHANGED <<Pri, Idx, IState>>
 
-Process_6_7(r) == 
-        /\ RState[r].state = "hinted"
-        /\ Pri' = Append(Pri, [etag |-> Last(Pri).etag + 1, val |-> r])
+UpdateReq_NewValueInPrimaryTable(r) ==
+  (*************************************************************************)
+  (* Phase 3 of the Update Request : Updates the new value of K in  the    *)
+  (* primary table. ( 6,7 in Fig )                                         *)
+  (*************************************************************************)
+  /\ RState[r].state = "queued"
+  /\ LET latestvalue == Last(Pri)
+     IN /\ Pri' = Append(Pri, [etag |-> latestvalue.etag + 1, val |-> r])
         /\ RState' = [RState EXCEPT ![r] = [state |-> "updated"]]
-        /\ UNCHANGED <<WrkQ, Idx, IState>>
+  /\ UNCHANGED <<WrkQ, Idx, IState>>
 
-IndexerRetrieveHint(i) == 
-        /\ IState[i].state = "waiting"
-        /\ Len(WrkQ) > 0
-        /\ IState' = [IState EXCEPT ![i] = [ state |-> "idx1", etagold |-> Head(WrkQ).etagold, valold |-> Head(WrkQ).valold]]
+-----------------------------------------------------------------------------
+(***************************************************************************)
+(*                          Indexer ACTIONS                                *)
+(***************************************************************************)
+Indexer_DequeueOptimisticUpdateHint(i) == 
+  (*************************************************************************)
+  (* Dequeues an update-hint to propate the change in K for. This record   *)
+  (* was added optimistically                                              *)
+  (*************************************************************************)
+  /\ IState[i].state = "waiting"
+  /\ Len(WrkQ) > 0
+  /\ LET updatehint == Head(WrkQ)
+     IN /\ IState' = [IState EXCEPT ![i] = 
+            [state |-> "idx_dequeued", valold |-> updatehint]]
         /\ WrkQ' = Tail(WrkQ)
-        /\ UNCHANGED <<Pri, Idx, RState>>
+  /\ UNCHANGED <<Pri, Idx, RState>>
 
-IndexerReadPrimaryTable(i) ==
-        /\ IState[i].state = "idx1"
-        /\ \/ /\ IState[i].etagold >= Last(Pri).etag
-              /\ IState' = [IState EXCEPT ![i] = [state |-> "idx2", etanew |-> Last(Pri).etag, valnew |-> Last(Pri).val]]
-           \/ /\ IState' = [IState EXCEPT ![i] = [state |-> "waiting", etagold |-> 0, rvalold |-> ""]]             
-        /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
+Indexer_ReadLatestValueFromPrimaryTable(i) ==
+  (*************************************************************************)
+  (* Indexer reads the latest value of the PK ad determines if it has moved*)
+  (* forward in version. If so it will continue the update process for the *)
+  (* index else ignores the update hint. Note the idempotency              *)
+  (*************************************************************************)
+  /\ IState[i].state = "idx_dequeued"
+  /\ LET latestvalue == Last(Pri)
+     IN \/ /\ IState[i].valold.etag > latestvalue.etag
+           /\ IState' = [IState EXCEPT ![i] = 
+                [state |-> "idx_do_update_1", valnew |-> latestvalue]]
+        \/ /\ IState' = [IState EXCEPT ![i] = IndexerResetRecord]           
+  /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
 
-\* TODO
-IndexerDeleteIndexRecord(i) == 
-        /\ IState[i].state = "idx2"
-        /\ IState' = [IState EXCEPT ![i] = [state |-> "idx3"]]
-        /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
+Indexer_DeleteOldValueFromIndex(i) == 
+  (*************************************************************************)
+  (* Tries to delete the old value from the Index                          *)
+  (*************************************************************************)
+  /\ IState[i].state = "idx_do_update_1"
+  /\ LET oldkey == IState[i].valold.val
+     IN /\ Idx' = Idx \ Idx[oldkey]
+  /\ IState' = [IState EXCEPT ![i] = [state |-> "idx_do_update_2"]]
+  /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
 
-\* TODO
-IndexerUpdateIndexRecord(i) == 
-        /\ IState[i].state = "idx3"
-        /\ \/ /\ Idx[IState[i].valnew].etag < IState[i].etagnew
-              /\ Idx' = [Idx EXCEPT ![IState[i].valnew] = [value |-> IState[i].valnew, etag |-> IState[i].etagnew]]
-           \/ /\ Idx' = Idx
-        /\ IState' = [IState EXCEPT ![i] = [state |-> "waiting", etagold |-> 0, rvalold |-> ""]] 
-        /\ UNCHANGED <<Pri, WrkQ, RState>>
+Indexer_UpdateIndexWithLatestValue(i) == 
+  (*************************************************************************)
+  (* Insert or Update the latest known snapshot version of the PK ensuring *)
+  (* an monotonic update in version. Note the idempotency                  *)
+  (*************************************************************************)
+  /\ IState[i].state = "idx_do_update_2"
+  /\ LET latestindexvalue == Idx[IState[i].valnew.val]
+     IN \/ /\ latestindexvalue = {}
+           /\ Idx' = [Idx EXCEPT ![IState[i].valnew.val] = 
+                [etag |-> IState[i].valnew.etag]]
+        \/ /\ latestindexvalue.etag < IState[i].valnew.etag
+           /\ Idx' = [Idx EXCEPT ![IState[i].valnew.val] = 
+                [etag |-> IState[i].valnew.etag]]
+        \/ /\ Idx' = Idx
+  /\ IState' = [IState EXCEPT ![i] = IndexerResetRecord]          
+  /\ UNCHANGED <<Pri, WrkQ, RState>>
 -----------------------------------------------------------------------------
 SIdxNext == 
-        \/ \E r \in REQUESTS : Process_2_3(r)
-        \/ \E r \in REQUESTS : Process_4_5(r)
-        \/ \E r \in REQUESTS : Process_6_7(r)
-        \/ \E i \in INDEXERS : IndexerRetrieveHint(i)
-        \/ \E i \in INDEXERS : IndexerReadPrimaryTable(i)
-        \/ \E i \in INDEXERS : IndexerDeleteIndexRecord(i)
-        \/ \E i \in INDEXERS : IndexerUpdateIndexRecord(i)
+  \/ \E r \in REQUESTS : UpdateReq_ReadCurrValueFromPrimaryTable(r)
+  \/ \E r \in REQUESTS : UpdateReq_EnqueueOptimisticUpdateHint(r)
+  \/ \E r \in REQUESTS : UpdateReq_NewValueInPrimaryTable(r)
+  \/ \E i \in INDEXERS : Indexer_DequeueOptimisticUpdateHint(i)
+  \/ \E i \in INDEXERS : Indexer_ReadLatestValueFromPrimaryTable(i)
+  \/ \E i \in INDEXERS : Indexer_DeleteOldValueFromIndex(i)
+  \/ \E i \in INDEXERS : Indexer_UpdateIndexWithLatestValue(i)
 -----------------------------------------------------------------------------
 SIdxSpec == SIdxInit /\ [][SIdxNext]_<<vars>>
 \* NOTES :
