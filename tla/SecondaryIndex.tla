@@ -15,10 +15,14 @@
 EXTENDS Integers, Sequences
 
 Remove(i, seq) == 
-[j \in 1..(Len(seq)-1) |-> IF j < i THEN seq[j] ELSE seq[j+1]]
+    [j \in 1..(Len(seq)-1) |-> IF j < i THEN seq[j] ELSE seq[j+1]]
 
-\* TODO
-Last(seq) == Head(seq)
+Last(seq) == 
+    IF Len(seq) = 0 THEN {} ELSE seq[Len(seq)]
+
+RemoveLast(seq) == 
+    IF Len(seq) = 0 THEN seq ELSE SubSeq(seq, 1, Len(seq)-1)
+
 -----------------------------------------------------------------------------
 CONSTANT REQUESTS, INDEXERS
 -----------------------------------------------------------------------------
@@ -40,7 +44,7 @@ IndexerResetRecord == [ state |-> "waiting",
                         
 SIdxInit == /\ Pri = << InitialRecord >>
             /\ WrkQ = << >>
-            /\ Idx = { InitialRecord } 
+            /\ Idx = [v \in { InitialRecord.val } |-> InitialRecord.etag]
             /\ RState = [r \in REQUESTS |-> [state |-> "unprocessed", rval |-> EmptyRecord]] 
             /\ IState = [i \in INDEXERS |-> IndexerResetRecord ]
 -----------------------------------------------------------------------------
@@ -65,7 +69,7 @@ UpdateReq_EnqueueOptimisticUpdateHint(r) ==
   (*************************************************************************)
   /\ RState[r].state = "readvalue"
   /\ WrkQ' = Append(WrkQ, RState[r].rval)
-  /\ RState' = [RState EXCEPT ![r] = [state |-> "queued"]]
+  /\ RState' = [RState EXCEPT ![r] = [state |-> "queued", rval |-> @.rval]]
   /\ UNCHANGED <<Pri, Idx, IState>>
 
 UpdateReq_NewValueInPrimaryTable(r) ==
@@ -76,7 +80,7 @@ UpdateReq_NewValueInPrimaryTable(r) ==
   /\ RState[r].state = "queued"
   /\ LET latestvalue == Last(Pri)
      IN /\ Pri' = Append(Pri, [etag |-> latestvalue.etag + 1, val |-> r])
-        /\ RState' = [RState EXCEPT ![r] = [state |-> "updated"]]
+        /\ RState' = [RState EXCEPT ![r] = [state |-> "updated", rval |-> @.rval]]
   /\ UNCHANGED <<WrkQ, Idx, IState>>
 
 -----------------------------------------------------------------------------
@@ -92,7 +96,7 @@ Indexer_DequeueOptimisticUpdateHint(i) ==
   /\ Len(WrkQ) > 0
   /\ LET updatehint == Head(WrkQ)
      IN /\ IState' = [IState EXCEPT ![i] = 
-            [state |-> "idx_dequeued", valold |-> updatehint]]
+            [state |-> "idx_dequeued", valold |-> updatehint, valnew |-> @.valnew]]
         /\ WrkQ' = Tail(WrkQ)
   /\ UNCHANGED <<Pri, Idx, RState>>
 
@@ -104,9 +108,9 @@ Indexer_ReadLatestValueFromPrimaryTable(i) ==
   (*************************************************************************)
   /\ IState[i].state = "idx_dequeued"
   /\ LET latestvalue == Last(Pri)
-     IN \/ /\ IState[i].valold.etag > latestvalue.etag
+     IN \/ /\ IState[i].valold.etag < latestvalue.etag
            /\ IState' = [IState EXCEPT ![i] = 
-                [state |-> "idx_do_update_1", valnew |-> latestvalue]]
+                [state |-> "idx_do_update_1", valold |-> @.valold, valnew |-> latestvalue]]
         \/ /\ IState' = [IState EXCEPT ![i] = IndexerResetRecord]           
   /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
 
@@ -116,7 +120,7 @@ Indexer_DeleteOldValueFromIndex(i) ==
   (*************************************************************************)
   /\ IState[i].state = "idx_do_update_1"
   /\ LET oldkey == IState[i].valold.val
-     IN /\ Idx' = Idx \ Idx[oldkey]
+     IN /\ Idx' = Idx \ oldkey
   /\ IState' = [IState EXCEPT ![i] = [state |-> "idx_do_update_2"]]
   /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
 
