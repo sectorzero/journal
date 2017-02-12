@@ -1,0 +1,191 @@
+Day,Exercise,Minutes,Calories Burned
+2016-9-26,"walking for pleasure",20.0,-67.38
+2016-9-27,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",15.0,-65.32
+2016-9-27,"stair-treadmill ergometer, general",15.0,-160.44
+2016-9-28,"walking for pleasure",20.0,-66.50
+2016-9-28,"stair-treadmill ergometer, general",15.0,-158.34
+2016-9-29,"stair-treadmill ergometer, general",15.0,-158.34
+2016-9-29,"walking, to work or class",15.0,-59.38
+2016-10-1,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",15.0,-65.32
+2016-10-2,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",20.0,-87.09
+2016-10-2,"bicycling, stationary, RPM/Spin bike class",20.0,-198.98
+2016-10-3,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",20.0,-87.43
+2016-10-3,"stair-treadmill ergometer, general",20.0,-211.96
+2016-10-4,"bicycling, stationary, RPM/Spin bike class",20.0,-197.40
+2016-10-5,"walking for pleasure",20.0,-66.06
+2016-10-5,"stair-treadmill ergometer, general",20.0,-211.40
+2016-10-6,"walking for pleasure",20.0,-66.06
+2016-10-6,"walking for pleasure",20.0,-66.06
+2016-10-7,"bicycling, stationary, RPM/Spin bike class",21.0,-206.72
+2016-10-9,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",15.0,-65.40
+2016-10-10,"walking, to work or class",20.0,-78.85
+2016-10-10,"stair-treadmill ergometer, general",24.0,-252.34
+2016-10-11,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",40.0,-171.86
+2016-10-12,"stair-treadmill ergometer, general",25.0,-263.90
+2016-10-13,"walking for pleasure",30.0,-98.96
+2016-10-14,"bicycling, stationary, RPM/Spin bike class",30.0,-294.53
+2016-10-15,"bicycling, stationary, RPM/Spin bike class",30.0,-295.71
+2016-10-17,"walking, to work or class",20.0,-78.44
+2016-10-17,"stair-treadmill ergometer, general",25.0,-261.45
+2016-10-18,"walking, to work or class",20.0,-78.02
+2016-10-18,"stair-treadmill ergometer, general",23.0,-239.25
+2016-10-19,"bicycling, stationary, RPM/Spin bike class",30.0,-291.77
+2016-10-20,"walking, to work or class",20.0,-77.81
+2016-10-20,"stair-treadmill ergometer, general",20.0,-207.48
+2016-10-21,"walking for pleasure",30.0,-97.26
+2016-10-22,"bicycling, stationary, RPM/Spin bike class",27.0,-262.59
+2016-10-23,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",40.0,-171.63
+2016-10-24,"stair-treadmill ergometer, general",25.0,-261.10
+2016-10-24,"walking for pleasure",15.0,-48.37
+2016-10-25,"walking for pleasure",20.0,-64.49
+2016-10-25,"bicycling, stationary, RPM/Spin bike class",35.0,-338.56
+2016-10-26,"swimming, leisurely, not lap swimming, general",30.0,-193.46
+2016-10-28,"stair-treadmill ergometer, general",20.0,-205.52
+2016-10-31,"walking, to work or class",20.0,-77.60
+2016-10-31,"stair-treadmill ergometer, general",26.0,-269.00
+2016-11-1,"walking, to work or class",20.0,-78.44
+2016-11-1,"bicycling, stationary, RPM/Spin bike class",33.0,-323.54
+2016-11-2,"stair-treadmill ergometer, general",25.0,-259.35
+2016-11-3,"walking for pleasure",35.0,-112.39
+2016-11-3,"swimming, leisurely, not lap swimming, general",30.0,-192.68
+2016-11-4,"stair-treadmill ergometer, general",15.0,-154.56
+2016-11-5,"bicycling, stationary, RPM/Spin bike class",30.0,-287.83
+2016-11-7,"walking for pleasure",30.0,-96.34
+2016-11-8,"bicycling, stationary, RPM/Spin bike class",35.0,-339.94
+2016-11-9,"stair-treadmill ergometer, general",25.0,-259.00
+2016-11-10,"swimming, leisurely, not lap swimming, general",30.0,-192.94
+2016-11-10,"walking for pleasure",20.0,-64.31
+2016-11-11,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",35.0,-147.55
+2016-11-12,"bicycling, stationary, RPM/Spin bike class",30.0,-287.44
+2016-11-12,"walking for pleasure",10.0,-31.94
+2016-11-13,"walking for pleasure",30.0,-95.81
+2016-11-14,"stair-treadmill ergometer, general",30.0,-308.70
+2016-11-15,"bicycling, stationary, RPM/Spin bike class",35.0,-334.88
+2016-11-16,"stair-treadmill ergometer, general",27.0,-275.56
+2016-11-16,"walking for pleasure",20.0,-63.79
+2016-11-17,"walking for pleasure",15.0,-47.84
+2016-11-17,"swimming, leisurely, not lap swimming, general",30.0,-191.36
+2016-11-18,"bicycling, stationary, RPM/Spin bike class",30.0,-287.04
+2016-11-19,"walking for pleasure",30.0,-95.68
+2016-11-20,"walking, 3.5 mph, level, brisk, firm surface, walking for exercise",35.0,-147.35
+2016-11-21,"walking, to work or class",15.0,-57.72
+2016-11-21,"stair-treadmill ergometer, general",28.0,-287.34
+2016-11-22,"walking, to work or class",20.0,-76.44
+2016-11-22,"bicycling, stationary, RPM/Spin bike class",32.0,-305.76
+2016-11-23,"stair-treadmill ergometer, general",25.0,-253.40
+2016-11-23,"walking, to work or class",15.0,-57.02
+2016-11-24,"swimming, leisurely, not lap swimming, general",40.0,-253.40
+2016-11-25,"walking, to work or class",30.0,-113.40
+2016-11-25,"jogging, general",30.0,-226.80
+2016-11-26,"bicycling, stationary, RPM/Spin bike class",30.0,-283.89
+2016-11-27,"jogging, general",30.0,-228.06
+2016-11-28,"walking for pleasure",20.0,-63.35
+2016-11-28,"stair-treadmill ergometer, general",25.0,-253.40
+2016-11-29,"walking for pleasure",20.0,-63.53
+2016-11-29,"bicycling, stationary, RPM/Spin bike class",35.0,-333.51
+2016-11-30,"walking for pleasure",20.0,-63.35
+2016-11-30,"stair-treadmill ergometer, general",26.0,-263.54
+2016-12-1,"walking for pleasure",20.0,-63.35
+2016-12-1,"swimming laps, freestyle, front crawl, slow, light or moderate effort",35.0,-212.86
+2016-12-2,"jogging, general",35.0,-263.50
+2016-12-3,"bicycling, stationary, RPM/Spin bike class",30.0,-284.29
+2016-12-4,"jogging, general",35.0,-265.34
+2016-12-5,"bicycling, stationary, RPM/Spin bike class",30.0,-284.68
+2016-12-6,"walking, to work or class",20.0,-75.92
+2016-12-6,"stair-treadmill ergometer, general",26.0,-263.17
+2016-12-7,"walking for pleasure",20.0,-63.26
+2016-12-7,"swimming laps, freestyle, fast, vigorous effort",25.0,-278.36
+2016-12-8,"stair-treadmill ergometer, general",30.0,-300.30
+2016-12-8,"walking for pleasure",15.0,-46.92
+2016-12-9,"jogging, general",40.0,-299.88
+2016-12-10,"walking for pleasure",15.0,-46.86
+2016-12-10,"bicycling, stationary, RPM/Spin bike class",30.0,-281.14
+2016-12-11,"jogging, general",40.0,-306.18
+2016-12-12,"walking for pleasure",20.0,-63.79
+2016-12-12,"stair-treadmill ergometer, general",25.0,-255.15
+2016-12-13,"bicycling, stationary, RPM/Spin bike class",32.0,-302.40
+2016-12-13,"walking for pleasure",15.0,-47.25
+2016-12-14,"walking for pleasure",15.0,-46.86
+2016-12-14,"swimming laps, freestyle, front crawl, slow, light or moderate effort",35.0,-209.92
+2016-12-15,"walking for pleasure",15.0,-46.66
+2016-12-15,"running, 5 mph (12 min/mile)",30.0,-272.49
+2016-12-16,"bicycling, stationary, RPM/Spin bike class",30.0,-278.78
+2016-12-17,"stair-treadmill ergometer, general",25.0,-249.55
+2016-12-17,"walking for pleasure",20.0,-62.39
+2016-12-18,"walking for pleasure",10.0,-31.19
+2016-12-18,"running, 5 mph (12 min/mile)",35.0,-315.22
+2016-12-19,"walking for pleasure",10.0,-31.19
+2016-12-19,"stair-treadmill ergometer, general",26.0,-259.53
+2016-12-20,"walking for pleasure",15.0,-46.79
+2016-12-20,"swimming laps, freestyle, front crawl, slow, light or moderate effort",35.0,-209.62
+2016-12-21,"walking for pleasure",10.0,-31.19
+2016-12-21,"bicycling, stationary, RPM/Spin bike class",30.0,-280.74
+2016-12-22,"hiking or walking at a normal pace through fields and hillsides",120.0,-643.84
+2016-12-23,"walking for pleasure",20.0,-62.56
+2016-12-23,"automobile or light truck (not a semi) driving",60.0,-112.61
+2016-12-25,"walking, to work or class",40.0,-149.73
+2016-12-26,"bicycling, stationary, RPM/Spin bike class",30.0,-280.74
+2016-12-27,"walking for pleasure",20.0,-62.39
+2016-12-27,"swimming laps, freestyle, front crawl, slow, light or moderate effort",35.0,-209.62
+2016-12-28,"walking for pleasure",20.0,-62.39
+2016-12-28,"stair-treadmill ergometer, general",26.0,-259.53
+2016-12-29,"walking for pleasure",15.0,-46.53
+2016-12-29,"bicycling, stationary, RPM/Spin bike class",50.0,-465.28
+2016-12-30,"walking for pleasure",40.0,-124.08
+2016-12-30,"stair-treadmill ergometer, general",26.0,-258.08
+2016-12-31,"walking for pleasure",20.0,-61.34
+2016-12-31,"running, 5 mph (12 min/mile)",35.0,-313.43
+2017-1-1,"walking for pleasure",15.0,-46.00
+2017-1-1,"running, 5 mph (12 min/mile)",30.0,-268.66
+2017-1-2,"walking for pleasure",10.0,-30.67
+2017-1-2,"bicycling, stationary, RPM/Spin bike class",30.0,-276.02
+2017-1-3,"walking for pleasure",15.0,-46.46
+2017-1-3,"stair-treadmill ergometer, general",26.0,-257.71
+2017-1-4,"walking for pleasure",15.0,-46.46
+2017-1-4,"stair-treadmill ergometer, general",30.0,-297.36
+2017-1-5,"walking for pleasure",15.0,-46.46
+2017-1-5,"running, 5 mph (12 min/mile)",30.0,-271.34
+2017-1-6,"walking for pleasure",15.0,-46.46
+2017-1-6,"bicycling, stationary, RPM/Spin bike class",32.0,-295.26
+2017-1-7,"walking for pleasure",45.0,-140.37
+2017-1-7,"stair-treadmill ergometer, general",27.0,-269.51
+2017-1-8,"walking for pleasure",20.0,-62.04
+2017-1-9,"walking for pleasure",20.0,-62.56
+2017-1-9,"stair-treadmill ergometer, general",28.0,-280.28
+2017-1-10,"walking for pleasure",20.0,-62.04
+2017-1-10,"bicycling, stationary, RPM/Spin bike class",45.0,-418.75
+2017-1-11,"walking for pleasure",15.0,-46.53
+2017-1-11,"swimming, crawl, medium speed, ~50 yards/minute, vigorous effort",26.0,-235.49
+2017-1-12,"walking for pleasure",15.0,-46.53
+2017-1-12,"bicycling, stationary, RPM/Spin bike class",45.0,-418.75
+2017-1-13,"walking for pleasure",10.0,-30.63
+2017-1-13,"running, 5 mph (12 min/mile)",35.0,-312.99
+2017-1-14,"walking for pleasure",30.0,-93.06
+2017-1-15,"running, 5 mph (12 min/mile)",35.0,-315.67
+2017-1-16,"walking for pleasure",20.0,-61.25
+2017-1-17,"bicycling, stationary, RPM/Spin bike class",40.0,-371.70
+2017-1-18,"walking for pleasure",15.0,-46.46
+2017-1-18,"swimming laps, freestyle, front crawl, slow, light or moderate effort",45.0,-267.62
+2017-1-19,"walking for pleasure",10.0,-30.98
+2017-1-19,"bicycling, stationary, RPM/Spin bike class",30.0,-278.78
+2017-1-20,"walking for pleasure",30.0,-92.93
+2017-1-21,"jogging, general",30.0,-223.02
+2017-1-22,"bicycling, stationary, RPM/Spin bike class",30.0,-280.74
+2017-1-23,"walking for pleasure",15.0,-46.59
+2017-1-26,"walking for pleasure",20.0,-61.78
+2017-1-27,"walking for pleasure",20.0,-61.78
+2017-1-28,"walking for pleasure",20.0,-61.34
+2017-1-30,"walking for pleasure",10.0,-30.93
+2017-1-30,"stair-treadmill ergometer, general",25.0,-247.45
+2017-1-31,"bicycling, stationary, RPM/Spin bike class",45.0,-416.39
+2017-1-31,"walking for pleasure",10.0,-30.84
+2017-2-4,"walking for pleasure",30.0,-93.98
+2017-2-3,"running, 5 mph (12 min/mile)",30.0,-274.41
+2017-2-1,"stair-treadmill ergometer, general",25.0,-250.60
+2017-2-2,"swimming laps, freestyle, front crawl, slow, light or moderate effort",35.0,-210.50
+2017-2-5,"walking for pleasure",25.0,-78.31
+2017-2-5,"bicycling, stationary, RPM/Spin bike class",30.0,-281.92
+2017-2-7,"bicycling, stationary, RPM/Spin bike class",45.0,-421.12
+2017-2-11,"running, 5 mph (12 min/mile)",30.0,-274.02
+2017-2-10,"swimming laps, freestyle, front crawl, slow, light or moderate effort",40.0,-240.24
+2017-2-9,"bicycling, stationary, RPM/Spin bike class",30.0,-281.53
