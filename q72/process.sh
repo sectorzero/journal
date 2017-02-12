@@ -30,6 +30,7 @@
 servings=$1
 exercises=$2
 biometrics=$3
+destpath=$4
 
 cat $servings \
     | sed 's/".*"/null/g' \
@@ -81,3 +82,18 @@ join -a 1 -a 2 -e'---' -o '0,2.2,1.2,1.3,1.4,1.5' \
 cat combined_2.tmp \
     | awk '{total_out=$4+$5+$6; total_in=$3; net=total_in+total_out; print $1 "," $2 "," net "," total_in "," total_out "," $4 "," $5 "," $6}' \
     > combined_3.tmp
+
+# legend='Date,Weight_Kgs,Net_KCal,TotalInput_KCal,TotalOutput_KCal,Exercise_KCal,BasalMetabolism_KCal,GeneralActivity_KCal'
+# echo $legend > combined.log
+cat combined_3.tmp > combined.log
+
+echo "Date,Weight-Kgs" > $destpath/q72_weight.csv
+awk -F',' '{print $1 "," $2 "," 0.5}' combined.log >> $destpath/q72_weight.csv
+
+echo "Date,Net-kCal" > $destpath/q72_netcal.csv
+awk -F',' '{print $1 "," $3 "," 100}' combined.log >> $destpath/q72_netcal.csv
+
+echo "Date,Input,Output" > $destpath/q72_detailcal.csv
+awk -F',' '{print $1 "," $4 "," 100 "," $5 "," 100}' combined.log >> $destpath/q72_detailcal.csv
+
+# cd $destpath & git status
