@@ -94,6 +94,10 @@ echo "Date,Net-kCal" > $destpath/q72_netcal.csv
 awk -F',' '{print $1 "," $3 "," 100}' combined.log >> $destpath/q72_netcal.csv
 
 echo "Date,Input,Output" > $destpath/q72_detailcal.csv
-awk -F',' '{print $1 "," $4 "," 100 "," $5 "," 100}' combined.log >> $destpath/q72_detailcal.csv
+cat combined.log \
+    | awk -F',' '{print $1 "," $4 "," 100 "," $5 "," 100}' \
+    | sed 's/---/0/g' \
+    | sed 's/,-/,/' \
+    >> $destpath/q72_detailcal.csv
 
-# cd $destpath & git status
+cd $destpath & git status

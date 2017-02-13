@@ -21,14 +21,14 @@
 \* Key Correctness : <K:K,Value:V,ETag:e> -> <Key:<Value,Key>, Etag:e>
 EXTENDS Integers, Sequences
 
-Remove(i, seq) == 
-  [j \in 1..(Len(seq)-1) |-> IF j < i THEN seq[j] ELSE seq[j+1]]
+\* Remove(i, seq) == 
+\*   [j \in 1..(Len(seq)-1) |-> IF j < i THEN seq[j] ELSE seq[j+1]]
 
 Last(seq) == 
   IF Len(seq) = 0 THEN {} ELSE seq[Len(seq)]
 
-RemoveLast(seq) == 
-  IF Len(seq) = 0 THEN seq ELSE SubSeq(seq, 1, Len(seq)-1)
+\*RemoveLast(seq) == 
+\*  IF Len(seq) = 0 THEN seq ELSE SubSeq(seq, 1, Len(seq)-1)
 
 -----------------------------------------------------------------------------
 CONSTANT 
@@ -48,21 +48,35 @@ vars == <<Pri, Idx, RState, IState, WrkQ>>
 \* Primary : [type:"primary", value:"somevalue", etag:3]
 \* Index   : [type:"index", key:"somevalue", etag:3]
 UpdateRecords == 
-    [t: {"primary"}, v: {"initial"} \cup {allstrings}, 
-        e: {x \in Int : x > 0}]
+    [t: {"primary"}, 
+     v: {"initial"} \cup {allstrings}, 
+     e: {x \in Int : x > 0}]
 
-IndexRecords ==
-    [t: {"index"}, k: {"initial"} \cup {allstrings}, 
-            e: {x \in Int : x > 0}, s: {"active", "deleted"}]
+\* IndexRecords ==
+\*     [t: {"index"}, 
+\*      k: {"initial"} \cup {allstrings}, 
+\*      e: {x \in Int : x > 0}, 
+\*      s: {"active", "deleted"}]
+
+IndexRecordsT ==
+    [t: {"index"}, 
+     k: {"initial"} \cup {allstrings}, 
+     e: {x \in Int : x >= 0}, 
+     s: {"notseen", "active", "deleted"}]
 
 RequestMessages ==
     [v: {allstring} \ {"initial"}, 
      s: {"unprocessed", "read", "queued", "updated"}
      r: {UpdateRecords}]
 
-IndexerMessages ==
-    [s: {"waiting", "dequeued", "do_update_1", "do_update_2"},
-     o: {UpdateRecords},
+\* Immutable
+IndexerMessage ==
+    [v: {allstring} \ {"initial"}, 
+     o: {UpdateRecords}]
+
+IndexerStateData ==
+    [s: {"waiting", "picked", "do_update_1", "do_update_2"},
+     m: {IndexerMessage},
      n: {UpdateRecords}]
 
 InitialUpdateRecord == 
@@ -74,21 +88,23 @@ EmptyUpdateRecord ==
 InitialIndexRecord == 
     [t |-> "index", k |-> "initial", e |-> 1]
 
-IndexerResetMessage == [ state |-> "waiting", 
-                         valold |-> EmptyUpdateRecord,
-                         valnew |-> EmptyUpdateRecord ]
+IndexerStateReset == [ s |-> "waiting", 
+                       m |-> [v |-> "", o |-> EmptyUpdateRecord],
+                       n |-> EmptyUpdateRecord ]
                         
 Init == /\ Pri = << InitialUpdateRecord >>
-        /\ Idx = << InitialIndexRecord >>
+        /\ Idx = [m \in REQUESTS \cup {"initial"} |->
+            [t |-> "index", k |-> m, e |-> 0, s: "notseen"]
+        \* /\ Idx = << InitialIndexRecord >>
         /\ WrkQ = {} 
         /\ RState = [m \in REQUESTS |-> 
             [v |-> m, s |-> "unprocessed", r |-> EmptyUpdateRecord]] 
-        /\ IState = [i \in INDEXERS |-> IndexerResetMessage ]
+        /\ IState = [i \in INDEXERS |-> IndexerStateReset ]
 -----------------------------------------------------------------------------
 (***************************************************************************)
 (*                          UpdateRequest ACTIONS                          *)
 (***************************************************************************)
-UpdateReq_ReadCurrValueFromPrimaryTable(m) ==
+UpdateReq_ReadLatestValFromPrimary(m) ==
   (*************************************************************************)
   (* Phase 1 of the Update Request : Reads the current value of K from the *)
   (* primary table. ( 2,3 in Fig )                                         *)
@@ -99,18 +115,18 @@ UpdateReq_ReadCurrValueFromPrimaryTable(m) ==
             [v |-> @.v, s |-> "read", r |-> currval]]
   /\ UNCHANGED <<Pri, Idx, IState, WrkQ>>
 
-UpdateReq_EnqueueOptimisticUpdateHint(m) == 
+UpdateReq_AddOptimisticUpdateHintMessage(m) == 
   (*************************************************************************)
   (* Phase 1 of the Update Request : Enqueues the read value as an optimis *)
   (* tic hint or marker for the updater to work on. ( 4,5 in Fig )         *)
   (*************************************************************************)
   /\ RState[m].s = "read"
-  /\ WrkQ' = WrkQ \cup RState[m].r
+  /\ WrkQ' = WrkQ \cup { [v |-> RState[m].v, o |-> RState[m].r] }
   /\ RState' = [RState EXCEPT ![m] = 
             [v |-> @.v, s |-> "queued", r |-> @.r]]
   /\ UNCHANGED <<Pri, Idx, IState>>
 
-UpdateReq_NewValueInPrimaryTable(m) ==
+UpdateReq_UpdateValueInPrimary(m) ==
   (*************************************************************************)
   (* Phase 3 of the Update Request : Updates the new value of K in  the    *)
   (* primary table. ( 6,7 in Fig )                                         *)
@@ -127,7 +143,7 @@ UpdateReq_NewValueInPrimaryTable(m) ==
 (***************************************************************************)
 (*                          Indexer ACTIONS                                *)
 (***************************************************************************)
-Indexer_DequeueOptimisticUpdateHint(i, m) == 
+Indexer_PickMessage(i, m) == 
   (*************************************************************************)
   (* Dequeues an update-hint to propate the change in K for. This record   *)
   (* was added optimistically                                              *)
@@ -137,7 +153,7 @@ Indexer_DequeueOptimisticUpdateHint(i, m) ==
             [s |-> "picked", o |-> m, n |-> @.valnew]]
   /\ UNCHANGED <<Pri, Idx, RState, WrkQ>>
 
-Indexer_ReadLatestValueFromPrimaryTable(i) ==
+Indexer_ReadLatestValueFromPrimary(i) ==
   (*************************************************************************)
   (* Indexer reads the latest value of the PK ad determines if it has moved*)
   (* forward in version. If so it will continue the update process for the *)
@@ -145,12 +161,34 @@ Indexer_ReadLatestValueFromPrimaryTable(i) ==
   (*************************************************************************)
   /\ IState[i].s = "picked"
   /\ LET latestvalue == Last(Pri)
-     IN /\ IF IState[i].v.e < latestvalue.e
+     IN /\ IF IState[i].o.e < latestvalue.e
            THEN /\ IState' = [IState EXCEPT ![i] = 
                     [s |-> "do_update_1", o |-> @.o, n |-> latestvalue]]
            ELSE
-                /\ IState' = [IState EXCEPT ![i] = IndexerResetMessage]           
+                /\ IState' = [IState EXCEPT ![i] = IndexerStateReset]           
   /\ UNCHANGED <<Pri, Idx, RState, WrkQ>>
+
+\* Indexer_DeleteOldValueFromIndex(i) == 
+\*   (*************************************************************************)
+\*   (* Tries to delete 'an' old value from the Index                         *)
+\*   (*************************************************************************)
+\*   /\ IState[i].s = "do_update_1"
+\*   /\ LET oldvalue == IState[i].o
+\*          idxvalue == 
+\*             CHOOSE j \in Idx : /\ j.v = oldvalue.v
+\*                                /\ j.e = oldvalue.e 
+\*                                \* note EQ is a stronger check than LTE 
+\*                                \* we can relax this to LTE if needed
+\*      IN IF idxvalue # {}
+\*         THEN /\ Idx' = {r \in Idx : /\ r.v # oldvalue.v
+\*                                     /\ r.e # oldvalue.e}
+\*                         \cup
+\*                        {[j EXCEPT !.s = "deleted"]} 
+\*              /\ IState' = [IState EXCEPT ![i] =
+\*                         [s |-> "do_update_2", o |-> @.o, n |-> @.n]]
+\*         ELSE /\ Idx' = Idx 
+\*              /\ IState' = [IState EXCEPT ![i] = IndexerStateReset ]
+\*   /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
 
 Indexer_DeleteOldValueFromIndex(i) == 
   (*************************************************************************)
@@ -158,50 +196,65 @@ Indexer_DeleteOldValueFromIndex(i) ==
   (*************************************************************************)
   /\ IState[i].s = "do_update_1"
   /\ LET oldvalue == IState[i].o
-         idxvalue == 
-            CHOOSE j \in Idx : /\ j.v = oldvalue.v
-                               /\ j.v = oldvalue.e 
-                               \* note EQ is a stronger check than LTE 
-                               \* we can relax this to LTE if needed
-     IN IF idxvalue # {}
-        THEN /\ Idx' = {r \in Idx : /\ r.v # oldvalue.v
-                                    /\ r.e # oldvalue.e}
-                        \cup
-                       {[j EXCEPT !.s = "deleted"]} 
+         idxvalue == IdxT[oldvalue.v]
+     IN IF /\ idxvalue.e = oldvalue.e 
+        THEN /\ IdxT' = [IdxT EXCEPT ![idxvalue.k] =  
+                    [k |-> @.k, 
+                     e |-> oldvalve.e, 
+                     s |-> "deleted", 
+                     t |-> @.t]]
              /\ IState' = [IState EXCEPT ![i] =
                         [s |-> "do_update_2", o |-> @.o, n |-> @.n]]
-        ELSE /\ Idx' = Idx 
-             /\ IState' = [IState EXCEPT ![i] = IndexerResetMessage ]
+        ELSE /\ IdxT' = IdxT 
+             /\ IState' = [IState EXCEPT ![i] = IndexerStateReset ]
   /\ UNCHANGED <<Pri, WrkQ, Idx, RState>>
 
-Indexer_UpdateIndexWithLatestValue(i) == 
+\* Indexer_UpdateIndexWithLatestValue(i) == 
+\*   (*************************************************************************)
+\*   (* Insert or Update the latest known snapshot version of the PK ensuring *)
+\*   (* an monotonic update in version. Note the idempotency                  *)
+\*   (*************************************************************************)
+\*   /\ IState[i].s = "do_update_2"
+\*   /\ LET latestidxval == 
+\*             CHOOSE j \in Idx : j.s = "active"
+\*      IN IF \/ latestidxval = {}
+\*            \/ /\ latestidxval # {}
+\*               /\ latestidxval.e < IState[i].n.e
+\*         THEN Idx' = Append(Idx, 
+\*                     [t |-> "index", 
+\*                      k |-> IState.n.v, 
+\*                      e |-> IState.n.e, 
+\*                      s |-> "active"])
+\*         ELSE Idx' = Idx
+\*   /\ IState' = [IState EXCEPT ![i] = IndexerResetRecord]          
+\*   /\ UNCHANGED <<Pri, RState, WrkQ>>
+
+Indexer_UpdateNewValueInIndex(i) == 
   (*************************************************************************)
   (* Insert or Update the latest known snapshot version of the PK ensuring *)
   (* an monotonic update in version. Note the idempotency                  *)
   (*************************************************************************)
   /\ IState[i].s = "do_update_2"
-  /\ LET latestidxval == 
-            CHOOSE j \in Idx : j.s = "active"
-     IN IF \/ latestidxval = {}
-           \/ /\ latestidxval # {}
-              /\ latestidxval.e < IState[i].n.e
-        THEN Idx' = Append(Idx, 
-                    [t |-> "index", 
-                     k |-> IState.n.v, 
-                     e |-> IState.n.e, 
-                     s |-> "active"])
-        ELSE Idx' = Idx
-  /\ IState' = [IState EXCEPT ![i] = IndexerResetRecord]          
+  /\ LET newval = IState[i].n 
+         indexval == IdxT[newval.v] 
+     IN IF indexval.e < newval.e
+        THEN IdxT' = [IdxT EXCEPT [indexval.k] = 
+                        [k |-> @.k, 
+                         e |-> newval.e
+                         s |-> "active", 
+                         t |-> @.t]]
+        ELSE IdxT' = Idx
+  /\ IState' = [IState EXCEPT ![i] = IndexerStateReset]          
   /\ UNCHANGED <<Pri, RState, WrkQ>>
 -----------------------------------------------------------------------------
 SIdxNext == 
-  \/ \E r \in REQUESTS : UpdateReq_ReadCurrValueFromPrimaryTable(r)
-  \/ \E r \in REQUESTS : UpdateReq_EnqueueOptimisticUpdateHint(r)
-  \/ \E r \in REQUESTS : UpdateReq_NewValueInPrimaryTable(r)
-  \/ \E i \in INDEXERS : Indexer_DequeueOptimisticUpdateHint(i)
-  \/ \E i \in INDEXERS : Indexer_ReadLatestValueFromPrimaryTable(i)
+  \/ \E r \in REQUESTS : UpdateReq_ReadLatestValueFromPrimary(r)
+  \/ \E r \in REQUESTS : UpdateReq_AddOptimisticUpdateHintMessage(r)
+  \/ \E r \in REQUESTS : UpdateReq_UpdateValueInPrimary(r)
+  \/ \E i \in INDEXERS : Indexer_PickMessage(i)
+  \/ \E i \in INDEXERS : Indexer_ReadLatestValueFromPrimary(i)
   \/ \E i \in INDEXERS : Indexer_DeleteOldValueFromIndex(i)
-  \/ \E i \in INDEXERS : Indexer_UpdateIndexWithLatestValue(i)
+  \/ \E i \in INDEXERS : Indexer_UpdateNewValueInIndex(i)
 -----------------------------------------------------------------------------
 SIdxSpec == SIdxInit /\ [][SIdxNext]_<<vars>>
 -----------------------------------------------------------------------------
