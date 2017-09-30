@@ -285,3 +285,12 @@ My Settings
 - history
 * Windows Stuff
 - Bunch of Settings
+
+Erlang
+------
+* brew install elixir
+* brew install rebar3
+* brew cask install intellij and setup
+* Added plugin for Erlang and setup ( https://www.jetbrains.com/help/idea/getting-started-with-erlang.html#d279169e315 )
+* Books : Beam-Book, Programming Erlang
+
