@@ -1,0 +1,8 @@
+- Install CLion
+- Change UI settings to Darcula
+- Create colors directory in ~/Library/Preferences/CLion and copy the IntelliJ Solarized Dark (Darcula) files to that directory
+- Set font to Menlo/18/1.2
+- Change the Code Font Color for C/C++ based on prefernce. Some identifiers are dark
+- All 'include' paths ( and almost all project based references and settings ) are controlled via CMakeLists.txt.  There is not 'Project Structure' as such similar tto Java
+- To make CMake look for include files under the entire root tree add 'include_directories(.)'
+- Need to adjust/add Vim keybindings similar to IntelliJ

@@ -1,0 +1,204 @@
+<keymap version="1" name="Vim" parent="Mac OS X">
+  <action id="ActivateGradleToolWindow">
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="G" />
+  </action>
+  <action id="ActivateProjectToolWindow">
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="P" />
+  </action>
+  <action id="ClassNameCompletion">
+    <keyboard-shortcut first-keystroke="shift control alt SPACE" />
+  </action>
+  <action id="CodeCompletion">
+    <keyboard-shortcut first-keystroke="control meta SPACE" />
+  </action>
+  <action id="Diff.NextChange">
+    <keyboard-shortcut first-keystroke="control meta RIGHT" />
+  </action>
+  <action id="Diff.PrevChange">
+    <keyboard-shortcut first-keystroke="control meta LEFT" />
+  </action>
+  <action id="EditorDownWithSelection">
+    <keyboard-shortcut first-keystroke="shift control DOWN" />
+  </action>
+  <action id="EditorLeftWithSelection">
+    <keyboard-shortcut first-keystroke="shift control alt LEFT" />
+  </action>
+  <action id="EditorRightWithSelection">
+    <keyboard-shortcut first-keystroke="shift control alt RIGHT" />
+  </action>
+  <action id="EditorUpWithSelection">
+    <keyboard-shortcut first-keystroke="shift control UP" />
+  </action>
+  <action id="ExportToTextFile">
+    <keyboard-shortcut first-keystroke="control alt O" />
+  </action>
+  <action id="FileStructurePopup">
+    <keyboard-shortcut first-keystroke="meta F12" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="C" />
+  </action>
+  <action id="FindNext">
+    <keyboard-shortcut first-keystroke="F3" />
+  </action>
+  <action id="FindUsages">
+    <keyboard-shortcut first-keystroke="alt F7" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="A" />
+  </action>
+  <action id="GotoBookmark2">
+    <keyboard-shortcut first-keystroke="control alt 2" />
+  </action>
+  <action id="GotoImplementation">
+    <keyboard-shortcut first-keystroke="meta alt B" />
+    <mouse-shortcut keystroke="meta alt button1" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="I" />
+  </action>
+  <action id="GotoSymbol">
+    <keyboard-shortcut first-keystroke="shift meta alt N" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="S" />
+  </action>
+  <action id="GotoTest">
+    <keyboard-shortcut first-keystroke="shift meta T" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="T" />
+  </action>
+  <action id="HideActiveWindow">
+    <keyboard-shortcut first-keystroke="shift ESCAPE" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="L" />
+  </action>
+  <action id="MakeModule">
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="QUOTE" />
+  </action>
+  <action id="NextOccurence">
+    <keyboard-shortcut first-keystroke="meta alt DOWN" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="CLOSE_BRACKET" />
+  </action>
+  <action id="NextSplitter">
+    <keyboard-shortcut first-keystroke="alt TAB" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="EQUALS" />
+  </action>
+  <action id="NextTab">
+    <keyboard-shortcut first-keystroke="control meta RIGHT" />
+    <keyboard-shortcut first-keystroke="alt SPACE" />
+  </action>
+  <action id="PreviousOccurence">
+    <keyboard-shortcut first-keystroke="meta alt UP" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="OPEN_BRACKET" />
+  </action>
+  <action id="PreviousTab">
+    <keyboard-shortcut first-keystroke="control meta LEFT" />
+  </action>
+  <action id="QuickJavaDoc">
+    <mouse-shortcut keystroke="control button2" />
+  </action>
+  <action id="RunClass">
+    <keyboard-shortcut first-keystroke="shift control F10" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="R" />
+  </action>
+  <action id="ShowBookmarks">
+    <keyboard-shortcut first-keystroke="shift F11" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="B" />
+  </action>
+  <action id="ShowNavBar">
+    <keyboard-shortcut first-keystroke="alt HOME" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="N" />
+  </action>
+  <action id="ShowProjectStructureSettings">
+    <keyboard-shortcut first-keystroke="meta SEMICOLON" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="Q" />
+  </action>
+  <action id="ShowUsages">
+    <keyboard-shortcut first-keystroke="meta alt F7" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="Z" />
+  </action>
+  <action id="SmartTypeCompletion">
+    <keyboard-shortcut first-keystroke="shift control alt SPACE" />
+  </action>
+  <action id="SplitVertically">
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="W" />
+  </action>
+  <action id="SwitchApply">
+    <keyboard-shortcut first-keystroke="control alt ENTER" />
+  </action>
+  <action id="SwitchDown">
+    <keyboard-shortcut first-keystroke="control alt DOWN" />
+  </action>
+  <action id="SwitchLeft">
+    <keyboard-shortcut first-keystroke="control alt LEFT" />
+  </action>
+  <action id="SwitchRight">
+    <keyboard-shortcut first-keystroke="control alt RIGHT" />
+  </action>
+  <action id="SwitchUp">
+    <keyboard-shortcut first-keystroke="control alt UP" />
+  </action>
+  <action id="ToggleBookmark">
+    <keyboard-shortcut first-keystroke="F11" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="M" />
+  </action>
+  <action id="ToggleBookmark2">
+    <keyboard-shortcut first-keystroke="shift control alt 2" />
+  </action>
+  <action id="TypeHierarchy">
+    <keyboard-shortcut first-keystroke="shift control H" />
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="H" />
+  </action>
+  <action id="Unsplit">
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="E" />
+  </action>
+  <action id="Vcs.QuickListPopupAction">
+    <keyboard-shortcut first-keystroke="control alt V" />
+  </action>
+  <action id="Vcs.ShowMessageHistory">
+    <keyboard-shortcut first-keystroke="meta E" />
+  </action>
+  <action id="VimKeyHandler">
+    <keyboard-shortcut first-keystroke="control 2" />
+    <keyboard-shortcut first-keystroke="control A" />
+    <keyboard-shortcut first-keystroke="control alt SPACE" />
+    <keyboard-shortcut first-keystroke="control B" />
+    <keyboard-shortcut first-keystroke="control BACK_SLASH" />
+    <keyboard-shortcut first-keystroke="control C" />
+    <keyboard-shortcut first-keystroke="control CLOSE_BRACKET" />
+    <keyboard-shortcut first-keystroke="control D" />
+    <keyboard-shortcut first-keystroke="control E" />
+    <keyboard-shortcut first-keystroke="control END" />
+    <keyboard-shortcut first-keystroke="control F" />
+    <keyboard-shortcut first-keystroke="control G" />
+    <keyboard-shortcut first-keystroke="control H" />
+    <keyboard-shortcut first-keystroke="control HOME" />
+    <keyboard-shortcut first-keystroke="control I" />
+    <keyboard-shortcut first-keystroke="control J" />
+    <keyboard-shortcut first-keystroke="control K" />
+    <keyboard-shortcut first-keystroke="control L" />
+    <keyboard-shortcut first-keystroke="control LEFT" />
+    <keyboard-shortcut first-keystroke="control M" />
+    <keyboard-shortcut first-keystroke="control O" />
+    <keyboard-shortcut first-keystroke="control OPEN_BRACKET" />
+    <keyboard-shortcut first-keystroke="control P" />
+    <keyboard-shortcut first-keystroke="control PAGE_DOWN" />
+    <keyboard-shortcut first-keystroke="control PAGE_UP" />
+    <keyboard-shortcut first-keystroke="control Q" />
+    <keyboard-shortcut first-keystroke="control R" />
+    <keyboard-shortcut first-keystroke="control RIGHT" />
+    <keyboard-shortcut first-keystroke="control S" />
+    <keyboard-shortcut first-keystroke="control SPACE" />
+    <keyboard-shortcut first-keystroke="control T" />
+    <keyboard-shortcut first-keystroke="control U" />
+    <keyboard-shortcut first-keystroke="control V" />
+    <keyboard-shortcut first-keystroke="control W" />
+    <keyboard-shortcut first-keystroke="control X" />
+    <keyboard-shortcut first-keystroke="control Y" />
+    <keyboard-shortcut first-keystroke="control Z" />
+    <keyboard-shortcut first-keystroke="KP_DOWN" />
+    <keyboard-shortcut first-keystroke="KP_LEFT" />
+    <keyboard-shortcut first-keystroke="KP_RIGHT" />
+    <keyboard-shortcut first-keystroke="KP_UP" />
+    <keyboard-shortcut first-keystroke="shift control 2" />
+    <keyboard-shortcut first-keystroke="shift control SPACE" />
+    <keyboard-shortcut first-keystroke="shift DOWN" />
+    <keyboard-shortcut first-keystroke="shift LEFT" />
+    <keyboard-shortcut first-keystroke="shift RIGHT" />
+    <keyboard-shortcut first-keystroke="shift UP" />
+  </action>
+  <action id="org.jetbrains.plugins.terminal.OpenLocalTerminalAction">
+    <keyboard-shortcut first-keystroke="BACK_SLASH" second-keystroke="X" />
+  </action>
+</keymap>

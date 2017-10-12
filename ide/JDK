@@ -1,0 +1,15 @@
+JDK Settings : 
+$> /usr/libexec/java_home -V
+
+To set the correct JDK location in IntelliJ
+- Go to File/Project Settings/
+- Set the correct JDK Path
+
+If you set the correct JDK Paths, you will be able to : 
+- See populated correct locations in File/Project Settings/Platform Settings
+- Able to navigate to JDK source code
+
+Installing Java on Mac OS X
+- JRE - install via System Preferences -> Java
+- JDK - download from Oracle and install ( see instructions for removing old versions and making latest default )
+- Unlimited Strenght JCE - download from Oracle and install

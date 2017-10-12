@@ -1,0 +1,2 @@
+- Install Lombok Plugin
+- In Settings/Compiler/Annotation\ Processors -> Check 'Enable Annotation Processing'

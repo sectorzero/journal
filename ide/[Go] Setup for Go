@@ -1,0 +1,48 @@
+1. brew install go  
+
+2. Go Path ( WTF )
+  * mkdir ~/workplace/go/work
+  ```
+  sectorzeros-MacBook-Pro% find ~/Workplace/go -type d -maxdepth 4
+  /Users/sectorzero/Workplace/go
+  /Users/sectorzero/Workplace/go/work
+  /Users/sectorzero/Workplace/go/work/bin
+  /Users/sectorzero/Workplace/go/work/pkg
+  /Users/sectorzero/Workplace/go/work/src
+  /Users/sectorzero/Workplace/go/work/src/github.com
+  /Users/sectorzero/Workplace/go/work/src/github.com/influxdata
+  /Users/sectorzero/Workplace/go/work/src/github.com/sectorzero
+  ```
+  * export GOPATH=$HOME/workplace/go/work
+
+3. Go Env
+sectorzeros-MacBook-Pro% go env
+GOARCH="amd64"
+GOBIN=""
+GOEXE=""
+GOHOSTARCH="amd64"
+GOHOSTOS="darwin"
+GOOS="darwin"
+GOPATH="/Users/sectorzero/Workplace/go/work"
+GORACE=""
+GOROOT="/usr/local/Cellar/go/1.9/libexec"
+GOTOOLDIR="/usr/local/Cellar/go/1.9/libexec/pkg/tool/darwin_amd64"
+GCCGO="gccgo"
+CC="clang"
+GOGCCFLAGS="-fPIC -m64 -pthread -fno-caret-diagnostics -Qunused-arguments -fmessage-length=0 -fdebug-prefix-map=/var/folders/sl/cnlb17kx4zd558pxhlh4bl240000gn/T/go-build309555492=/tmp/go-build -gno-record-gcc-switches -fno-common"
+CXX="clang++"
+CGO_ENABLED="1"
+CGO_CFLAGS="-g -O2"
+CGO_CPPFLAGS=""
+CGO_CXXFLAGS="-g -O2"
+CGO_FFLAGS="-g -O2"
+CGO_LDFLAGS="-g -O2"
+PKG_CONFIG="pkg-config"
+
+4. Install Gogland
+
+5. Do basic setup as Intellij
+
+6. In Goglang Project Settings ensure GOROOT and GOPATH set correct ( https://www.jetbrains.com/help/go/getting-started-with-gogland.html )
+
+7. And that's it

@@ -1,0 +1,17 @@
+Erlang / IntelliJ / MacOSX
+--------------------------
+
+1. brew install elixir
+2. brew install rebar3
+3. brew cask install intellij and setup ( as instructions )
+4. Added plugin for Erlang and setup ( https://www.jetbrains.com/help/idea/getting-started-with-erlang.html#d279169e315 )
+5. Create a project 
+6. Consfigure the Project properly with
+  * Project SDK should point to Erlang installed 
+  * Eg : 
+    * Project SDK = Erlang 20
+    * SDK home path = /usr/local/Cellar/erlang/20.0.5/lib/erlang
+    * classpath = file:///usr/local/Cellar/erlang/20.0.5/lib/erlang/lib
+    * sourcepath = file:///usr/local/Cellar/erlang/20.0.5/lib/erlang/lib
+    * documentation paths = http://www.erlang.org/documentation/doc-9.0.5
+7. That's it

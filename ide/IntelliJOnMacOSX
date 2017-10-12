@@ -1,0 +1,25 @@
+<header>
+
+# Setup
+1. Install JRE/JDK as suggested
+2. Using brew/cask install intellij-ce
+3. Update idea.properties and idea.vmoptions, Info.plist as needed
+4. Start intellij
+5. Install IdeaVim
+6. Install Solarized Settings ( https://github.com/jkaving/intellij-colors-solarized )
+&. Import Keyboard Shortcuts Settings ( TODO )
+
+# Resources
+* /Applications/IntelliJ IDEA 14 CE.app/Contents/bin/idea.properties
+* /Applications/IntelliJ IDEA 14 CE.app/Contents/bin/idea.vmoptions
+* /Applications/IntelliJ IDEA 14 CE.app/Contents/bin/Info.plist
+
+* Preferences : 
+  * ~/Library/Preferences/IdeaIC14
+
+* Vim Keymap : 
+  * /Users/sdoddame/Library/Preferences/IdeaIC14/keymaps/Vim.xml
+  * ~/.ideavimrc
+
+* Idea log : 
+  * tail -F ~/Library/Logs/IdeaIC14/idea.log
