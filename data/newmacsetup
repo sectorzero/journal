@@ -6,7 +6,8 @@ System Setup Initial
 - Keep network off
 - Disable location tracking
 - Spotlight, remove most of the search spaces. Esp 'Spotlight Preferences'
-- Keep Sharing Off for now
+- Keep Sharing Off for now:q!
+:q!
 - Enable Firewall Full
 - Login : always require password, as soon as locked, advanced : auto log off in 30 mins, always ask for admin password for systemwide changes
 - Keychain Access : need to research 

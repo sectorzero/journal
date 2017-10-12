@@ -1,5 +1,6 @@
 # Unsorted Bucket
 
+## Tracks 
 | Name | Artist | Link | Comments |
 | --- | --- | --- | --- |
 | Madagascar | Art of Trance | [YT](https://www.youtube.com/watch?v=ZY95z8vwEAc) | |
@@ -13,17 +14,40 @@
 | It’s Fucking Dark | Fabulous 23s | [YT](https://www.youtube.com/watch?v=zv-IMmyfmPU) | |
 | Acid 8000 | Fatboy Slim | [YT](https://www.youtube.com/watch?v=L5c8rGWqAHY) | |
 | Something | Faxe Inc. | [YT](https://www.youtube.com/watch?v=rLCU1aJbb_c) | |
-| | | [YT]() | |
-| | | [YT]() | |
+| The Joker | Technossomy | [BC](https://avatarmusic.bandcamp.com/track/technossomy-the-joker) | |
+| A Star Is Born | Domino | [BC](https://avatarmusic.bandcamp.com/track/domino-a-star-is-born) | |
+| Do You Beleive | X-Dream | [BC](https://avatarmusic.bandcamp.com/track/x-dream-do-you-believe) | |
+| Nomad | Etnia | [BC](https://avatarmusic.bandcamp.com/track/etnia-nomad) | |
+| The Kumba Mela Experiment | Elephant Trax | [BC](https://avatarmusic.bandcamp.com/track/the-kumba-mela-experiment-elephant-trax-djerba-edit) | |
+| Deep East | Etnica | [BC](https://avatarmusic.bandcamp.com/track/etnica-deep-east-edit) | |
 | | | [YT]() | |
 | | | [YT]() | |
 | | | [YT]() | |
 | | | [YT]() | |
 
+## Albums
+| Name | Artist | Link | Comments |
+| --- | --- | --- | --- |
+| Fata Morgana | | [BC](https://avatarmusic.bandcamp.com/album/fata-morgana) | |
+| Goa Classics Remixed | Astral Projection | [BC](https://tiprecords.bandcamp.com/album/goa-classics-remixed) | |
+
+
 # Sorted / Selected Bucket
 | Name | Artist | Link | Comments |
 | --- | --- | --- | --- |
 | Alienated | Earth Nation | [BC](https://avatarmusic.bandcamp.com/track/earth-nation-alienated) | |
+| No Name | MWNN | [BC](https://avatarmusic.bandcamp.com/track/man-with-no-name-no-name) | |
+| Mai Mai | Jaia | [BC](https://avatarmusic.bandcamp.com/track/jaia-mai-mai) | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
+| | | [YT]() | |
 
 # Scratch
 ```
