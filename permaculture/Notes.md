@@ -1,15 +1,36 @@
 # Permaculture Notes
 
-# Books
+## Some Quotes & Interesting Aspects
 
-* [Permaculture Designers Manual](https://www.amazon.com/Permaculture-Designers-Manual-Bill-Mollison/dp/0908228015) - From the main who developed this concept - 1970ish. Supposed to be the bible. [Read the first 2 chapters (pdf copy)](./book.pdf)
+* Opening sentence from [Maritime Northwest Garden Guide](). This hammers in a strong perspective ![](./Maritime.jpg) 
 
-# Some Quotes & Interesting Aspects
+* Jane Goodall : *"Out in the rainforest, you learn how everything is interconnected and each little species, even though it may seem insignificant, has a role to play in this tapestry of life"*
 
-* Starting sentence from NW Maritime Guide - 
+* Big picture of the philosophy : If you observe forests and nature, all systems are balanced and self-sustaining in a well-running closed-system. Nobody adds fertilizer, controls pests, battles droughts. Only if ones start breaking links and dependencies, the wheel breaks - which is what human engineering does ( non-wholistic ). If you start with the goal that you want to 'grow food for humans', then it is fundamentally is broken from the get go. But if you start with the intenetion on how you will 'design the landscape' in order to work with nature towards a co-operative ecosystem, food will be by-product - not only for you, but for all the birds, insects and animals ( of which you are part ). And looking at practical examples - it is 100x less labor/energy-intensive, regenerative and wholistic self-feedback system - with more than enough bounty for you.
 
-# Short Videos
+## Short Videos ( See these first fully )
 
-* [Miracle Farms](https://www.youtube.com/watch?v=3riW_yiCN5E) - This is an organic orchard farmer who evloved towards permaculture. I think he captures most of the essensce who has practically implemented the principles. For me this is what it is all about - it is not about humans, it is about restoring balance to the ecosystem. [See the specific point](https://youtu.be/3riW_yiCN5E?t=435). I dont agree with killing pests etc. Pests and counter-aspects are an artifact of breaking some chain or balance. And who are we to deny it to the smallest creatures. If balance is restored it will run like who smooth cycle.
+* [Miracle Farms](https://www.youtube.com/watch?v=3riW_yiCN5E) - This is an organic orchard farmer who evloved towards permaculture. I think he captures most of the essensce who has practically implemented the principles. For me this is what it is all about - it is not about humans, it is about restoring balance to the ecosystem. [See this specific point](https://youtu.be/3riW_yiCN5E?t=435). I dont agree with killing pests etc. Pests and counter-aspects are an artifact of breaking some chain or balance. And who are we to deny it to the smallest creatures. If balance is restored it will run like who smooth cycle.
 
-# Longer Videos
+* [Aranya](https://www.youtube.com/watch?v=XnTqhayGWrw) This is a working experiment in India ( looks like somewhere in AP). Humble folks, extrordinary effort.
+
+* [Guyton Food Forest](https://www.youtube.com/watch?v=6GJFL0MD9fc) This food forest rocks. Lot of philosophical digressions. [See important point here](https://www.youtube.com/watch?v=6GJFL0MD9fc&feature=youtu.be&t=540)
+
+* [Farm In France](https://www.youtube.com/watch?v=oNreOaTK4BU) Just a nice working farm demo.
+
+* [Make Soil Alive](https://www.youtube.com/watch?v=S5wgHQtxgJwa) This is a small but point-on video from one of the experts in the field. The video itself is about regenerating soil, but [the key point here is so simple and fundamental](https://www.youtube.com/watch?v=S5wgHQtxgJw&feature=youtu.be&t=430) 
+
+## Longer Materials
+
+* [Farm for the Future](https://vimeo.com/136857929) This gives a wide perspective in simple terms. This is a clean simple documentary without going into details. 
+
+* [Permaculture Designers Manual](https://www.amazon.com/Permaculture-Designers-Manual-Bill-Mollison/dp/0908228015) - From the main who developed this concept - 1970ish. Supposed to be the bible book. [Read the first 2 chapters (pdf copy)](./manual.pdf)
+
+* [Midwest Permaculture](https://www.youtube.com/watch?v=gjQ_BXo7hLk&index=1&list=PL8A13FE6DAED398CB) The first video gives some good illustrations on why traditional techniques and industrial agriculture is a nightmare just w.r.t to resource usage.
+
+## Other Refs ( Just my notes - ignore )
+
+* [Handeeman Low Water Demo](https://www.youtube.com/watch?v=4IWZZcgZs6Y)
+* [Property Choosing Guide](https://www.youtube.com/watch?v=bYe8ds64Bek)
+* [Principles In Application](https://www.youtube.com/watch?v=N225HDyIUe8)
+* [Worm Tower](https://www.youtube.com/watch?v=1pEq2QkBG4U)
