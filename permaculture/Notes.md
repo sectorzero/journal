@@ -10,7 +10,7 @@
 <!-- /TOC -->
 ## 1.1. Some Quotes & Interesting Aspects
 
-* Opening sentence from [Maritime Northwest Garden Guide](). This hammers in a strong perspective ![](./Maritime.jpg) 
+* Opening sentence from [Maritime Northwest Garden Guide](http://www.seattletilth.org/get-involved/aboutmngg). This hammers in a strong perspective ![](./Maritime.jpg) 
 
 * Jane Goodall : *"Out in the rainforest, you learn how everything is interconnected and each little species, even though it may seem insignificant, has a role to play in this tapestry of life"*
 
