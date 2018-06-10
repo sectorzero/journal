@@ -1,6 +1,14 @@
-# Permaculture Notes
+# 1. Permaculture Notes
+<!-- TOC -->
 
-## Some Quotes & Interesting Aspects
+- [1. Permaculture Notes](#1-permaculture-notes)
+    - [1.1. Some Quotes & Interesting Aspects](#11-some-quotes--interesting-aspects)
+    - [1.2. Short Videos ( See these first fully )](#12-short-videos--see-these-first-fully-)
+    - [1.3. Longer Materials](#13-longer-materials)
+    - [1.4. Other Refs ( Just my notes - ignore )](#14-other-refs--just-my-notes---ignore-)
+
+<!-- /TOC -->
+## 1.1. Some Quotes & Interesting Aspects
 
 * Opening sentence from [Maritime Northwest Garden Guide](). This hammers in a strong perspective ![](./Maritime.jpg) 
 
@@ -8,7 +16,7 @@
 
 * Big picture of the philosophy : If you observe forests and nature, all systems are balanced and self-sustaining in a well-running closed-system. Nobody adds fertilizer, controls pests, battles droughts. Only if ones start breaking links and dependencies, the wheel breaks - which is what human engineering does ( non-wholistic ). If you start with the goal that you want to 'grow food for humans', then it is fundamentally is broken from the get go. But if you start with the intenetion on how you will 'design the landscape' in order to work with nature towards a co-operative ecosystem, food will be by-product - not only for you, but for all the birds, insects and animals ( of which you are part ). And looking at practical examples - it is 100x less labor/energy-intensive, regenerative and wholistic self-feedback system - with more than enough bounty for you.
 
-## Short Videos ( See these first fully )
+## 1.2. Short Videos ( See these first fully )
 
 * [Miracle Farms](https://www.youtube.com/watch?v=3riW_yiCN5E) - This is an organic orchard farmer who evloved towards permaculture. I think he captures most of the essensce who has practically implemented the principles. For me this is what it is all about - it is not about humans, it is about restoring balance to the ecosystem. [See this specific point](https://youtu.be/3riW_yiCN5E?t=435). I dont agree with killing pests etc. Pests and counter-aspects are an artifact of breaking some chain or balance. And who are we to deny it to the smallest creatures. If balance is restored it will run like who smooth cycle.
 
@@ -20,7 +28,7 @@
 
 * [Make Soil Alive](https://www.youtube.com/watch?v=S5wgHQtxgJwa) This is a small but point-on video from one of the experts in the field. The video itself is about regenerating soil, but [the key point here is so simple and fundamental](https://www.youtube.com/watch?v=S5wgHQtxgJw&feature=youtu.be&t=430) 
 
-## Longer Materials
+## 1.3. Longer Materials
 
 * [Farm for the Future](https://vimeo.com/136857929) This gives a wide perspective in simple terms. This is a clean simple documentary without going into details. 
 
@@ -28,7 +36,7 @@
 
 * [Midwest Permaculture](https://www.youtube.com/watch?v=gjQ_BXo7hLk&index=1&list=PL8A13FE6DAED398CB) The first video gives some good illustrations on why traditional techniques and industrial agriculture is a nightmare just w.r.t to resource usage.
 
-## Other Refs ( Just my notes - ignore )
+## 1.4. Other Refs ( Just my notes - ignore )
 
 * [Handeeman Low Water Demo](https://www.youtube.com/watch?v=4IWZZcgZs6Y)
 * [Property Choosing Guide](https://www.youtube.com/watch?v=bYe8ds64Bek)
