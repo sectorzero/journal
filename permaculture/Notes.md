@@ -5,6 +5,7 @@
     - [1.1. Some Quotes & Interesting Aspects](#11-some-quotes--interesting-aspects)
     - [1.2. Short Videos ( See these first fully )](#12-short-videos--see-these-first-fully-)
     - [1.3. Longer Materials](#13-longer-materials)
+    - [Irrigation](#irrigation)
     - [1.4. Other Refs ( Just my notes - ignore )](#14-other-refs--just-my-notes---ignore-)
 
 <!-- /TOC -->
@@ -28,6 +29,8 @@
 
 * [Make Soil Alive](https://www.youtube.com/watch?v=S5wgHQtxgJwa) This is a small but point-on video from one of the experts in the field. The video itself is about regenerating soil, but [the key point here is so simple and fundamental](https://www.youtube.com/watch?v=S5wgHQtxgJw&feature=youtu.be&t=430) 
 
+* [Shivnanjaiah](https://www.youtube.com/watch?v=wbbMCZ_JrdQ) Simple words of wisdom in Kannada :) Also lot of practical tips for India.
+
 ## 1.3. Longer Materials
 
 * [Farm for the Future](https://vimeo.com/136857929) This gives a wide perspective in simple terms. This is a clean simple documentary without going into details. 
@@ -36,9 +39,20 @@
 
 * [Midwest Permaculture](https://www.youtube.com/watch?v=gjQ_BXo7hLk&index=1&list=PL8A13FE6DAED398CB) The first video gives some good illustrations on why traditional techniques and industrial agriculture is a nightmare just w.r.t to resource usage.
 
+* [Ashok Kumar](https://www.youtube.com/watch?v=ne01YmP4ZTw)
+
+## Irrigation
+
+* [Efficient Irrigation Systems](https://permaculturenews.org/2014/04/24/get-started-efficient-irrigation-systems/)
+* [Handeeman Low Water Demo](https://www.youtube.com/watch?v=4IWZZcgZs6Y)
+* [Deep Pipe Irrigation](https://www.youtube.com/watch?v=RW0ry4244vE)
+* [Olla](https://permaculturenews.org/2010/09/16/ollas-unglazed-clay-pots-for-garden-irrigation/)
+* [Deep Drip](http://www.deepdrip.com/agriculture/)
+* [Hydrospiral](https://www.youtube.com/watch?v=PRfeZas_wy4)
+* [Wicking](https://www.youtube.com/watch?v=VLn2X-g-_7g)
+
 ## 1.4. Other Refs ( Just my notes - ignore )
 
-* [Handeeman Low Water Demo](https://www.youtube.com/watch?v=4IWZZcgZs6Y)
 * [Property Choosing Guide](https://www.youtube.com/watch?v=bYe8ds64Bek)
 * [Principles In Application](https://www.youtube.com/watch?v=N225HDyIUe8)
 * [Worm Tower](https://www.youtube.com/watch?v=1pEq2QkBG4U)
