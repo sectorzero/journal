@@ -5,8 +5,10 @@
     - [1.1. Some Quotes & Interesting Aspects](#11-some-quotes--interesting-aspects)
     - [1.2. Short Videos ( See these first fully )](#12-short-videos--see-these-first-fully-)
     - [1.3. Longer Materials](#13-longer-materials)
-    - [Irrigation](#irrigation)
-    - [1.4. Other Refs ( Just my notes - ignore )](#14-other-refs--just-my-notes---ignore-)
+    - [1.4. Irrigation](#14-irrigation)
+    - [1.5. Alive Soil](#15-alive-soil)
+    - [1.6. Biodiversity & Pests](#16-biodiversity--pests)
+    - [1.7. Other Refs ( Just my notes - ignore )](#17-other-refs--just-my-notes---ignore-)
 
 <!-- /TOC -->
 ## 1.1. Some Quotes & Interesting Aspects
@@ -41,7 +43,7 @@
 
 * [Ashok Kumar](https://www.youtube.com/watch?v=ne01YmP4ZTw)
 
-## Irrigation
+## 1.4. Irrigation
 
 * [Efficient Irrigation Systems](https://permaculturenews.org/2014/04/24/get-started-efficient-irrigation-systems/)
 * [Handeeman Low Water Demo](https://www.youtube.com/watch?v=4IWZZcgZs6Y)
@@ -51,7 +53,11 @@
 * [Hydrospiral](https://www.youtube.com/watch?v=PRfeZas_wy4)
 * [Wicking](https://www.youtube.com/watch?v=VLn2X-g-_7g)
 
-## 1.4. Other Refs ( Just my notes - ignore )
+## 1.5. Alive Soil
+
+## 1.6. Biodiversity & Pests
+
+## 1.7. Other Refs ( Just my notes - ignore )
 
 * [Property Choosing Guide](https://www.youtube.com/watch?v=bYe8ds64Bek)
 * [Principles In Application](https://www.youtube.com/watch?v=N225HDyIUe8)
