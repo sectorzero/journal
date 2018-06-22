@@ -33,6 +33,10 @@
 
 * [Shivnanjaiah](https://www.youtube.com/watch?v=wbbMCZ_JrdQ) Simple words of wisdom in Kannada :) Also lot of practical tips for India.
 
+* [Another Knowledge Filled Video By Shivananjaiah](https://www.youtube.com/watch?v=mJliIe3cIZQ)
+
+* [Even Upendra Is Getting Hands-On](https://www.youtube.com/watch?v=XoTPprTDawQ) Very humble guy actually. There a few but important points here and there.
+
 ## 1.3. Longer Materials
 
 * [Farm for the Future](https://vimeo.com/136857929) This gives a wide perspective in simple terms. This is a clean simple documentary without going into details. 
